@@ -1,0 +1,301 @@
+/* 事件决策层 — 标题中上、卡片中下，禁止滚动 */
+
+.event-scene {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-rows:
+    minmax(6vh, 0.75fr)
+    auto
+    minmax(4vh, 0.55fr)
+    auto
+    minmax(10vh, 0.95fr);
+  grid-template-areas:
+    '.'
+    'title'
+    '.'
+    'body'
+    '.';
+  justify-items: center;
+  align-items: center;
+  padding: 0 clamp(10px, 2.5vw, 22px);
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.event-scene > * {
+  pointer-events: auto;
+}
+
+/* ── 小型事件标题框（中上） ── */
+
+.event-scene__title-panel {
+  grid-area: title;
+  align-self: end;
+  width: min(360px, 58vw);
+  padding: clamp(8px, 1.5vh, 11px) clamp(14px, 2.5vw, 18px);
+  text-align: center;
+  background: #faf6ec;
+  border: 2.5px solid #2d4a38;
+  border-radius: 12px;
+  box-shadow:
+    0 3px 0 #2d4a38,
+    0 6px 16px rgba(30, 50, 38, 0.18);
+}
+
+.event-scene__title {
+  margin: 0;
+  font-size: clamp(0.78rem, 2.2vw, 0.96rem);
+  font-weight: 900;
+  color: #1a1a1a;
+  letter-spacing: 0.04em;
+  line-height: 1.2;
+}
+
+.event-scene__text {
+  margin: clamp(4px, 0.8vh, 6px) 0 0;
+  font-size: clamp(0.56rem, 1.5vw, 0.68rem);
+  font-weight: 600;
+  line-height: 1.4;
+  color: #2a2a2a;
+}
+
+/* ── 卡片区（中下） ── */
+
+.event-scene__cards-wrap,
+.event-scene__action-wrap {
+  grid-area: body;
+  align-self: start;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding: clamp(4px, 1vh, 8px) 0;
+}
+
+.event-scene__cards {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  gap: clamp(10px, 2.2vw, 16px);
+  width: 100%;
+  max-width: min(720px, 92vw);
+  overflow: hidden;
+}
+
+.event-scene__continue {
+  padding: clamp(8px, 1.5vh, 11px) clamp(22px, 5vw, 32px);
+  border: 2.5px solid #2d4a38;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #a8e6bc 0%, #52b788 100%);
+  font-size: clamp(0.68rem, 1.8vw, 0.82rem);
+  font-weight: 900;
+  color: #1a1a1a;
+  cursor: pointer;
+  box-shadow: 0 3px 0 #2d6a4f;
+}
+
+/* ── 竖向决策卡：实色白底 ── */
+
+.scheme-card {
+  flex: 0 0 clamp(148px, 21vw, 188px);
+  width: clamp(148px, 21vw, 188px);
+  min-height: clamp(210px, 42vh, 268px);
+  display: flex;
+  flex-direction: column;
+  padding: clamp(10px, 1.8vh, 13px) clamp(10px, 1.5vw, 12px) clamp(10px, 1.6vh, 12px);
+  background: #ffffff;
+  border: 3px solid #2d4a38;
+  border-radius: 16px;
+  box-shadow:
+    0 5px 0 #2d4a38,
+    0 10px 24px rgba(30, 50, 38, 0.2);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.scheme-card--long,
+.scheme-card--balance,
+.scheme-card--short,
+.scheme-card--risk {
+  background: #ffffff;
+}
+
+.scheme-card:hover:not(.scheme-card--locked) {
+  border-color: #52b788;
+  box-shadow:
+    0 5px 0 #2d4a38,
+    0 12px 28px rgba(82, 183, 136, 0.22);
+}
+
+.scheme-card:hover:not(.scheme-card--locked) .scheme-card__tag--long {
+  background: #86efac;
+  border-color: #16a34a;
+}
+
+.scheme-card:hover:not(.scheme-card--locked) .scheme-card__tag--balance {
+  background: #93c5fd;
+  border-color: #2563eb;
+}
+
+.scheme-card:hover:not(.scheme-card--locked) .scheme-card__tag--short {
+  background: #fdba74;
+  border-color: #ea580c;
+}
+
+.scheme-card:hover:not(.scheme-card--locked) .scheme-card__btn:not(.scheme-card__btn--disabled) {
+  filter: brightness(1.06);
+}
+
+.scheme-card--locked {
+  opacity: 0.68;
+  background: #f5f5f5;
+}
+
+.scheme-card--locked:hover {
+  border-color: #2d4a38;
+  box-shadow:
+    0 5px 0 #2d4a38,
+    0 10px 24px rgba(30, 50, 38, 0.2);
+}
+
+.scheme-card__head {
+  margin-bottom: clamp(8px, 1.4vh, 10px);
+}
+
+.scheme-card__name {
+  margin: 0 0 clamp(5px, 0.9vh, 6px);
+  font-size: clamp(0.68rem, 1.85vw, 0.82rem);
+  font-weight: 900;
+  color: #1a1a1a;
+  line-height: 1.25;
+}
+
+.scheme-card__tag {
+  display: inline-block;
+  padding: 3px 10px;
+  font-size: clamp(0.5rem, 1.25vw, 0.58rem);
+  font-weight: 900;
+  border-radius: 8px;
+  border: 2px solid;
+  line-height: 1.2;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.scheme-card__tag--long {
+  color: #166534;
+  background: #dcfce7;
+  border-color: #22c55e;
+}
+
+.scheme-card__tag--balance {
+  color: #1e40af;
+  background: #dbeafe;
+  border-color: #3b82f6;
+}
+
+.scheme-card__tag--short {
+  color: #b45309;
+  background: #ffedd5;
+  border-color: #f97316;
+}
+
+.scheme-card__tag--risk {
+  color: #b91c1c;
+  background: #fee2e2;
+  border-color: #ef4444;
+}
+
+.scheme-card__stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(5px, 1vh, 7px);
+  margin-bottom: clamp(8px, 1.4vh, 10px);
+}
+
+.scheme-card__stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: clamp(5px, 1vh, 7px) 4px;
+  background: #f4f6f4;
+  border: 1.5px solid #d4dcd4;
+  border-radius: 10px;
+}
+
+.scheme-card__stat-label {
+  font-size: clamp(0.48rem, 1.15vw, 0.54rem);
+  font-weight: 800;
+  color: #6a7a72;
+}
+
+.scheme-card__stat-val {
+  font-size: clamp(0.58rem, 1.45vw, 0.68rem);
+  font-weight: 900;
+  color: #1a1a1a;
+}
+
+.scheme-card__stat--cut .scheme-card__stat-val {
+  color: #15803d;
+}
+
+.scheme-card__stat--up .scheme-card__stat-val {
+  color: #1d4ed8;
+}
+
+.scheme-card__stat--down .scheme-card__stat-val {
+  color: #b91c1c;
+}
+
+.scheme-card__desc {
+  flex: 1;
+  margin: 0;
+  padding: clamp(4px, 0.8vh, 6px) 2px;
+  font-size: clamp(0.52rem, 1.35vw, 0.62rem);
+  font-weight: 600;
+  line-height: 1.4;
+  color: #3a3a3a;
+  text-align: center;
+}
+
+.scheme-card__foot {
+  margin-top: auto;
+  padding-top: clamp(6px, 1vh, 8px);
+}
+
+.scheme-card__btn {
+  width: 100%;
+  padding: clamp(8px, 1.5vh, 10px) 0;
+  border: 2.5px solid #2d4a38;
+  border-radius: 12px;
+  background: linear-gradient(180deg, #a8e6bc 0%, #52b788 100%);
+  font-size: clamp(0.58rem, 1.45vw, 0.68rem);
+  font-weight: 900;
+  color: #1a1a1a;
+  cursor: pointer;
+  box-shadow: 0 3px 0 #2d6a4f;
+  transition: filter 0.15s ease;
+  letter-spacing: 0.04em;
+}
+
+.scheme-card__btn--disabled {
+  background: #e0dcd2;
+  box-shadow: 0 3px 0 #a8a498;
+  cursor: not-allowed;
+  color: #6a6a6a;
+}
+
+@media (max-height: 420px) {
+  .event-scene {
+    grid-template-rows:
+      minmax(2vh, 0.4fr)
+      auto
+      minmax(1vh, 0.2fr)
+      auto
+      minmax(3vh, 0.45fr);
+  }
+
+  .scheme-card {
+    min-height: clamp(180px, 38vh, 220px);
+  }
+}

@@ -1,0 +1,76 @@
+.park-task {
+  padding: 16px;
+  background: #f8faf8;
+  border-bottom: 1px solid #d8e2dc;
+}
+
+.park-task__title {
+  margin: 0 0 12px;
+  font-size: 1rem;
+  font-weight: 800;
+  color: #1b4332;
+}
+
+.park-task__card {
+  margin-bottom: 10px;
+  padding: 10px 12px;
+  background: #fff;
+  border: 1px solid #c5d4c9;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(27, 67, 50, 0.06);
+}
+
+.park-task__label {
+  margin: 0 0 4px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #52796f;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.park-task__text,
+.park-task__metric {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #2d3e35;
+  line-height: 1.45;
+}
+
+.park-task__text strong,
+.park-task__metric strong {
+  color: #1b4332;
+}
+
+.park-task__badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.park-task__badge--pending {
+  background: #fff3e0;
+  color: #e65100;
+  border: 1px solid #ffcc80;
+}
+
+.park-task__badge--in_progress {
+  background: #e3f2fd;
+  color: #1565c0;
+  border: 1px solid #90caf9;
+}
+
+.park-task__badge--completed {
+  background: #e8f5e9;
+  color: #2e7d32;
+  border: 1px solid #a5d6a7;
+}
+
+.park-task__hint {
+  margin: 12px 0 0;
+  font-size: 0.78rem;
+  color: #5c6f63;
+  line-height: 1.55;
+}

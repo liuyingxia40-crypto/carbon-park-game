@@ -1,0 +1,28 @@
+.park-footer {
+  flex-shrink: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 8px 16px;
+  padding: 10px 20px;
+  background: #2d3e35;
+  border-top: 2px solid #1b4332;
+  color: #d8f3dc;
+  font-size: 0.78rem;
+}
+
+.park-footer__item strong {
+  color: #95d5b2;
+  font-weight: 700;
+}
+
+.park-footer__sep {
+  opacity: 0.35;
+}
+
+@media (max-width: 720px) {
+  .park-footer__sep {
+    display: none;
+  }
+}

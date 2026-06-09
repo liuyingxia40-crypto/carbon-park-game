@@ -1,0 +1,64 @@
+.park-header {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 20px;
+  background: linear-gradient(90deg, #1b4332 0%, #2d6a4f 55%, #40916c 100%);
+  border-bottom: 3px solid #081c15;
+  box-shadow: 0 4px 16px rgba(8, 28, 21, 0.25);
+  color: #fff;
+}
+
+.park-header__brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.park-header__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  background: rgba(255, 255, 255, 0.15);
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  border-radius: 10px;
+  font-size: 1.4rem;
+}
+
+.park-header__title {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+
+.park-header__subtitle {
+  margin: 2px 0 0;
+  font-size: 0.78rem;
+  opacity: 0.88;
+}
+
+.park-header__phase {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  padding: 8px 14px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 10px;
+}
+
+.park-header__phase-label {
+  font-size: 0.68rem;
+  opacity: 0.8;
+}
+
+.park-header__phase-value {
+  font-size: 0.88rem;
+  font-weight: 700;
+}

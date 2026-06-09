@@ -1,0 +1,173 @@
+.retrofit-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(40, 50, 45, 0.5);
+  pointer-events: auto;
+}
+
+.retrofit-panel {
+  position: relative;
+  width: min(380px, calc(100% - 48px));
+  max-height: calc(100% - 48px);
+  overflow: hidden;
+  border: 3px solid #3d3d3d;
+  border-radius: 14px;
+  box-shadow: 0 8px 0 rgba(0, 0, 0, 0.2), 0 16px 40px rgba(0, 0, 0, 0.25);
+  font-family: 'Microsoft YaHei', 'PingFang SC', 'Segoe UI', sans-serif;
+  color: #2a3238;
+  background: #fdfbf3;
+}
+
+.retrofit-panel__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  background: linear-gradient(180deg, #6aaf6e 0%, #4a8f5c 100%);
+  border-bottom: 2px solid #3d3d3d;
+}
+
+.retrofit-panel__header-title {
+  margin: 0;
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: 0.12em;
+}
+
+.retrofit-panel__close {
+  width: 28px;
+  height: 28px;
+  border: 2px solid #3d3d3d;
+  border-radius: 6px;
+  background: #fffef8;
+  font-size: 1.1rem;
+  line-height: 1;
+  color: #2a3238;
+  cursor: pointer;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.15);
+}
+
+.retrofit-panel__close:hover {
+  background: #ffe8e0;
+}
+
+.retrofit-panel__body {
+  padding: 16px 18px 18px;
+  overflow-y: auto;
+  max-height: 70vh;
+}
+
+.retrofit-panel__title {
+  margin: 0 0 12px;
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #2a3238;
+}
+
+.retrofit-panel__section {
+  margin-bottom: 12px;
+  padding: 10px 12px;
+  background: #fffef8;
+  border: 2px solid #c8c0b0;
+  border-radius: 10px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.retrofit-panel__section-title {
+  margin: 0 0 6px;
+  font-size: 0.68rem;
+  font-weight: 800;
+  color: #8a7a62;
+  letter-spacing: 0.08em;
+}
+
+.retrofit-panel__text {
+  margin: 0;
+  font-size: 0.85rem;
+  line-height: 1.55;
+  color: #3d4a42;
+}
+
+.retrofit-panel__rows {
+  margin: 0 0 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.retrofit-panel__row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 10px;
+  background: #fffef8;
+  border: 2px solid #d8d0c0;
+  border-radius: 8px;
+  font-size: 0.82rem;
+}
+
+.retrofit-panel__row dt {
+  font-weight: 700;
+  color: #6a7a72;
+}
+
+.retrofit-panel__row dd {
+  margin: 0;
+  font-weight: 800;
+  color: #2a3238;
+}
+
+.retrofit-panel__row--solution dd {
+  color: #2563eb;
+  font-size: 0.78rem;
+}
+
+.retrofit-panel__row--cut dd {
+  color: #166534;
+  font-size: 0.95rem;
+}
+
+.retrofit-panel__actions {
+  display: flex;
+  gap: 10px;
+}
+
+.retrofit-panel__action {
+  flex: 1;
+  padding: 12px 16px;
+  border: 2px solid #3d3d3d;
+  border-radius: 10px;
+  background: linear-gradient(180deg, #7ed492 0%, #4a9e5c 100%);
+  font-size: 1rem;
+  font-weight: 800;
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 4px 0 #2d5a3a;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
+}
+
+.retrofit-panel__action:hover {
+  filter: brightness(1.05);
+}
+
+.retrofit-panel__action:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 #2d5a3a;
+}
+
+.retrofit-panel__done {
+  margin: 0;
+  padding: 12px;
+  text-align: center;
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: #166534;
+  background: #dcfce7;
+  border: 2px solid #22c55e;
+  border-radius: 10px;
+}

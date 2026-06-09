@@ -1,0 +1,27 @@
+.game-title {
+  position: absolute;
+  top: 14px;
+  left: 16px;
+  z-index: 10;
+  padding: 12px 18px;
+  background: rgba(255, 255, 255, 0.88);
+  border-radius: 14px;
+  box-shadow: 0 4px 18px rgba(60, 100, 140, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  max-width: min(320px, calc(100% - 32px));
+}
+
+.game-title__main {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #1a4a7a;
+  letter-spacing: 0.02em;
+}
+
+.game-title__sub {
+  margin: 4px 0 0;
+  font-size: 0.78rem;
+  color: #5a7a9a;
+  line-height: 1.4;
+}

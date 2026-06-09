@@ -1,0 +1,35 @@
+/* 第一阶段 · 微信横屏小游戏布局 */
+
+.story-app {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  max-width: 100vw;
+  max-height: 100vh;
+  overflow: hidden;
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+  background: #c8d8c4;
+  font-family: 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif;
+}
+
+.story-main {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.story-app,
+.story-app * {
+  scrollbar-width: none;
+}
+
+.story-app *::-webkit-scrollbar {
+  display: none;
+}

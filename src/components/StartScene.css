@@ -1,0 +1,331 @@
+/* ── 游戏主菜单首页：暗色工业 · 米黄棕金 ── */
+
+.start-scene {
+  --ink: #101211;
+  --ink-soft: #3a3834;
+  --coal: #1b1b18;
+  --paper: #d8c7a1;
+  --paper-dim: #c9b88e;
+  --copper: #8f6a32;
+  --copper-light: #a67c3a;
+
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  font-family: 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif;
+  user-select: none;
+  -webkit-user-select: none;
+  background: var(--ink);
+}
+
+/* ── 背景层（配色不变） ── */
+
+.start-scene__map {
+  position: absolute;
+  inset: -12px;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  filter: blur(1px) saturate(0.42) brightness(0.38) contrast(1.05);
+  transform: scale(1.03);
+  pointer-events: none;
+}
+
+.start-scene__vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 78% 72% at 50% 44%,
+    rgba(16, 18, 17, 0.05) 0%,
+    rgba(12, 12, 11, 0.55) 58%,
+    rgba(8, 8, 7, 0.92) 100%
+  );
+  pointer-events: none;
+}
+
+.start-scene__warm-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 52% 46% at 52% 44%,
+    rgba(201, 184, 142, 0.1) 0%,
+    rgba(143, 106, 50, 0.04) 38%,
+    transparent 72%
+  );
+  pointer-events: none;
+}
+
+.start-scene__grain {
+  position: absolute;
+  inset: 0;
+  opacity: 0.35;
+  background-image: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.03) 2px,
+    rgba(0, 0, 0, 0.03) 3px
+  );
+  pointer-events: none;
+}
+
+/* ── 页面四角细线装饰 ── */
+
+.start-scene__frame {
+  position: absolute;
+  inset: clamp(14px, 2.5vw, 28px);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.start-scene__frame-corner {
+  position: absolute;
+  width: clamp(28px, 4vw, 44px);
+  height: clamp(28px, 4vw, 44px);
+  border-color: rgba(201, 184, 142, 0.35);
+  border-style: solid;
+  opacity: 0.85;
+}
+
+.start-scene__frame-corner--tl {
+  top: 0;
+  left: 0;
+  border-width: 1.5px 0 0 1.5px;
+}
+
+.start-scene__frame-corner--tr {
+  top: 0;
+  right: 0;
+  border-width: 1.5px 1.5px 0 0;
+}
+
+.start-scene__frame-corner--bl {
+  bottom: 0;
+  left: 0;
+  border-width: 0 0 1.5px 1.5px;
+}
+
+.start-scene__frame-corner--br {
+  bottom: 0;
+  right: 0;
+  border-width: 0 1.5px 1.5px 0;
+}
+
+/* ── 居中主菜单（略偏右） ── */
+
+.start-scene__menu {
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  left: 50%;
+  transform: translate(calc(-46% + clamp(8px, 2vw, 32px)), -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: min(92vw, 480px);
+  text-align: center;
+}
+
+/* ── 游戏标题 ── */
+
+.start-scene__hero {
+  margin: 0 0 clamp(36px, 7vh, 56px);
+}
+
+.start-scene__title-main {
+  margin: 0;
+  font-size: clamp(2.4rem, 10vw, 4.2rem);
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  line-height: 1.05;
+  color: var(--paper);
+  text-shadow:
+    0 2px 0 var(--coal),
+    0 4px 0 rgba(16, 18, 17, 0.6),
+    0 8px 24px rgba(0, 0, 0, 0.75),
+    0 0 48px rgba(143, 106, 50, 0.22);
+  -webkit-text-stroke: 1px rgba(27, 27, 24, 0.35);
+}
+
+.start-scene__title-sub {
+  margin: clamp(6px, 1.2vh, 10px) 0 0;
+  font-size: clamp(1.5rem, 5.5vw, 2.6rem);
+  font-weight: 900;
+  letter-spacing: 0.28em;
+  line-height: 1.1;
+  color: var(--paper-dim);
+  text-shadow:
+    0 2px 0 var(--coal),
+    0 6px 18px rgba(0, 0, 0, 0.65);
+}
+
+.start-scene__tagline {
+  margin: clamp(18px, 3vh, 28px) auto 0;
+  max-width: 22em;
+  font-size: clamp(0.78rem, 2vw, 0.94rem);
+  font-weight: 500;
+  line-height: 1.65;
+  letter-spacing: 0.06em;
+  color: rgba(216, 199, 161, 0.72);
+}
+
+/* ── 游戏按钮 ── */
+
+.start-scene__actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(14px, 2.4vh, 20px);
+  width: 100%;
+}
+
+.start-scene__btn {
+  width: min(340px, 88vw);
+  min-height: clamp(52px, 7vh, 58px);
+  padding: clamp(14px, 2vh, 16px) clamp(24px, 4vw, 32px);
+  border-radius: 4px;
+  font-size: clamp(0.92rem, 2.2vw, 1.02rem);
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+  transition:
+    transform 0.18s ease,
+    filter 0.18s ease,
+    border-color 0.18s ease,
+    background 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.start-scene__btn--primary {
+  color: #f5ead8;
+  background: linear-gradient(180deg, var(--copper-light) 0%, var(--copper) 100%);
+  border: 2px solid var(--paper-dim);
+  box-shadow:
+    0 4px 0 #5c4520,
+    0 8px 24px rgba(0, 0, 0, 0.45),
+    0 0 0 1px rgba(27, 27, 24, 0.25) inset;
+}
+
+.start-scene__btn--primary:hover {
+  transform: translateY(-3px);
+  filter: brightness(1.1);
+  border-color: var(--paper);
+  box-shadow:
+    0 6px 0 #5c4520,
+    0 12px 28px rgba(0, 0, 0, 0.5),
+    0 0 20px rgba(143, 106, 50, 0.25);
+}
+
+.start-scene__btn--secondary {
+  color: var(--paper);
+  background: rgba(16, 18, 17, 0.55);
+  border: 2px solid rgba(201, 184, 142, 0.45);
+  box-shadow:
+    0 3px 0 rgba(16, 18, 17, 0.8),
+    0 6px 16px rgba(0, 0, 0, 0.35);
+}
+
+.start-scene__btn--secondary:hover {
+  transform: translateY(-3px);
+  filter: brightness(1.12);
+  border-color: var(--paper-dim);
+  background: rgba(27, 27, 24, 0.72);
+  box-shadow:
+    0 5px 0 rgba(16, 18, 17, 0.8),
+    0 10px 22px rgba(0, 0, 0, 0.4);
+}
+
+.start-scene__btn--disabled {
+  color: rgba(201, 184, 142, 0.38);
+  background: rgba(16, 18, 17, 0.35);
+  border: 2px solid rgba(201, 184, 142, 0.18);
+  box-shadow: 0 2px 0 rgba(16, 18, 17, 0.5);
+  opacity: 0.62;
+  cursor: not-allowed;
+}
+
+/* ── 说明弹窗 ── */
+
+.start-scene__modal {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(16px, 4vw, 24px);
+  background: rgba(8, 8, 7, 0.72);
+}
+
+.start-scene__modal-panel {
+  position: relative;
+  width: min(92vw, 400px);
+  padding: clamp(28px, 4vh, 36px) clamp(26px, 4vw, 32px) clamp(24px, 3.5vh, 30px);
+  background: linear-gradient(180deg, #ddd0b0 0%, var(--paper) 22%, #cdbb96 100%);
+  border: 1px solid #5a5548;
+  border-radius: 4px;
+  box-shadow:
+    0 0 0 1px rgba(27, 27, 24, 0.2) inset,
+    0 24px 56px rgba(0, 0, 0, 0.55);
+}
+
+.start-scene__modal-close {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  width: 32px;
+  height: 32px;
+  border: 1px solid rgba(90, 85, 72, 0.5);
+  border-radius: 3px;
+  background: rgba(27, 27, 24, 0.08);
+  color: var(--ink-soft);
+  font-size: 1.15rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.18s ease, border-color 0.18s ease;
+}
+
+.start-scene__modal-close:hover {
+  background: rgba(27, 27, 24, 0.16);
+  border-color: var(--copper);
+}
+
+.start-scene__modal-title {
+  margin: 0;
+  font-size: clamp(1rem, 2.4vw, 1.12rem);
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  color: var(--ink);
+  text-align: left;
+}
+
+.start-scene__modal-body {
+  margin: clamp(14px, 2.5vh, 18px) 0 clamp(20px, 3vh, 26px);
+  text-align: left;
+}
+
+.start-scene__modal-body p {
+  margin: 0;
+  font-size: clamp(0.78rem, 2vw, 0.88rem);
+  font-weight: 500;
+  line-height: 1.75;
+  letter-spacing: 0.02em;
+  color: var(--ink-soft);
+}
+
+.start-scene__modal-body p + p {
+  margin-top: 0.35em;
+}
+
+.start-scene__modal-ok {
+  width: 100%;
+}
+
+@media (max-width: 480px) {
+  .start-scene__menu {
+    transform: translate(-50%, -50%);
+  }
+}

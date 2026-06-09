@@ -1,0 +1,15 @@
+.phaser-game {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  background: #16261c;
+}
+
+.phaser-game canvas {
+  display: block;
+}
+
+/* 主舞台：Phaser FIT 铺满容器，bezel 用深色而非留白 */
+.park-map-host .phaser-game canvas {
+  display: block;
+}

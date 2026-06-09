@@ -1,0 +1,145 @@
+@import './EventOverlay.css';
+
+.factory-panel {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-rows:
+    minmax(5vh, 0.7fr)
+    auto
+    minmax(3vh, 0.45fr)
+    auto
+    minmax(8vh, 0.85fr);
+  grid-template-areas:
+    '.'
+    'title'
+    '.'
+    'body'
+    '.';
+  justify-items: center;
+  align-items: center;
+  padding: 0 clamp(10px, 2.5vw, 22px);
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.factory-panel > * {
+  pointer-events: auto;
+}
+
+.factory-panel__title-panel {
+  grid-area: title;
+  align-self: end;
+  position: relative;
+  width: min(400px, 62vw);
+  padding: clamp(10px, 1.6vh, 14px) clamp(16px, 2.8vw, 20px);
+  text-align: center;
+  background: rgba(250, 246, 236, 0.96);
+  border: 2.5px solid #2d4a38;
+  border-radius: 12px;
+  box-shadow:
+    0 3px 0 #2d4a38,
+    0 6px 16px rgba(30, 50, 38, 0.18);
+}
+
+.factory-panel__close {
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 6px;
+  background: rgba(45, 74, 56, 0.12);
+  color: #2d4a38;
+  font-size: 1.2rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.factory-panel__title {
+  margin: 0;
+  font-size: clamp(0.82rem, 2.3vw, 1rem);
+  font-weight: 900;
+  color: #1a1a1a;
+}
+
+.factory-panel__problem {
+  margin: clamp(5px, 0.9vh, 8px) 0 0;
+  font-size: clamp(0.58rem, 1.55vw, 0.7rem);
+  font-weight: 600;
+  line-height: 1.45;
+  color: #2a2a2a;
+}
+
+.factory-panel__emission {
+  margin: clamp(4px, 0.7vh, 6px) 0 0;
+  font-size: clamp(0.54rem, 1.4vw, 0.66rem);
+  font-weight: 700;
+  color: #5c4030;
+}
+
+.factory-panel__cards-wrap,
+.factory-panel__result {
+  grid-area: body;
+  align-self: start;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.factory-panel__cards {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  gap: clamp(10px, 2.2vw, 16px);
+  width: 100%;
+  max-width: min(920px, 96vw);
+}
+
+.factory-panel__cards-wrap--single .factory-panel__cards {
+  max-width: min(320px, 88vw);
+}
+
+.factory-panel__result {
+  width: min(360px, 72vw);
+  padding: clamp(12px, 2vh, 16px) clamp(14px, 2.5vw, 18px);
+  text-align: center;
+  background: rgba(236, 252, 243, 0.95);
+  border: 2.5px solid #166534;
+  border-radius: 12px;
+  box-shadow: 0 4px 14px rgba(22, 101, 52, 0.15);
+}
+
+.factory-panel__result-label {
+  margin: 0;
+  font-size: 0.62rem;
+  font-weight: 700;
+  color: #166534;
+  letter-spacing: 0.06em;
+}
+
+.factory-panel__result-name {
+  margin: 6px 0 0;
+  font-size: clamp(0.78rem, 2vw, 0.92rem);
+  font-weight: 900;
+  color: #14532d;
+}
+
+.factory-panel__result-stats {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+  font-size: 0.62rem;
+  font-weight: 700;
+  color: #1e3a2a;
+}
+
+.factory-panel__result-note {
+  margin: 10px 0 0;
+  font-size: 0.58rem;
+  font-weight: 600;
+  color: #3f6212;
+}

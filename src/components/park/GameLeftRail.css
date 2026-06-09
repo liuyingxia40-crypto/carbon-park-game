@@ -1,0 +1,94 @@
+.game-side-menu {
+  flex: 0 0 var(--game-left-w, 170px);
+  width: var(--game-left-w, 170px);
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  padding: 10px 10px 12px;
+  background: linear-gradient(180deg, #faf6eb 0%, #e8f0dc 100%);
+  border-right: 2px solid #3d3d3d;
+  overflow: hidden;
+}
+
+.game-side-menu__title {
+  margin: 0 0 10px;
+  padding: 6px 10px;
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: #fff;
+  text-align: center;
+  letter-spacing: 0.12em;
+  background: linear-gradient(180deg, #6aaf6e 0%, #4a8f5c 100%);
+  border: 2px solid #3d3d3d;
+  border-radius: 10px;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.12);
+}
+
+.game-side-menu__nav {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+
+.game-menu-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 12px 14px;
+  border: 2px solid #3d3d3d;
+  border-radius: 12px;
+  background: linear-gradient(180deg, #fffef8 0%, #f0ead8 100%);
+  cursor: pointer;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.12);
+  transition: transform 0.1s ease;
+}
+
+.game-menu-btn:hover {
+  filter: brightness(1.03);
+}
+
+.game-menu-btn:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.12);
+}
+
+.game-menu-btn--active {
+  background: linear-gradient(180deg, #c8e8c0 0%, #9ed49a 100%);
+  border-color: #2d6a4f;
+  box-shadow:
+    0 0 0 2px rgba(45, 106, 79, 0.25),
+    0 3px 0 #2d5a3a;
+}
+
+.game-menu-btn--hint {
+  animation: menu-hint 1.6s ease infinite;
+}
+
+@keyframes menu-hint {
+  0%,
+  100% {
+    box-shadow: 0 0 0 2px rgba(45, 106, 79, 0.2), 0 3px 0 rgba(0, 0, 0, 0.12);
+  }
+  50% {
+    box-shadow: 0 0 0 4px rgba(45, 106, 79, 0.4), 0 3px 0 rgba(0, 0, 0, 0.12);
+  }
+}
+
+.game-menu-btn__icon {
+  font-size: 1.15rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.game-menu-btn__label {
+  font-size: 0.92rem;
+  font-weight: 800;
+  color: #2a3238;
+  letter-spacing: 0.08em;
+}
+
+.game-menu-btn--active .game-menu-btn__label {
+  color: #1b4332;
+}

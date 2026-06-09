@@ -1,0 +1,855 @@
+{
+  "frames": {
+    "tile_grass": {
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 105,
+        "h": 212
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 105,
+        "h": 212
+      },
+      "sourceSize": {
+        "w": 105,
+        "h": 212
+      }
+    },
+    "tile_grass_detail": {
+      "frame": {
+        "x": 105,
+        "y": 0,
+        "w": 105,
+        "h": 212
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 105,
+        "h": 212
+      },
+      "sourceSize": {
+        "w": 105,
+        "h": 212
+      }
+    },
+    "tile_dirt": {
+      "frame": {
+        "x": 210,
+        "y": 0,
+        "w": 105,
+        "h": 212
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 105,
+        "h": 212
+      },
+      "sourceSize": {
+        "w": 105,
+        "h": 212
+      }
+    },
+    "tile_road_straight": {
+      "frame": {
+        "x": 315,
+        "y": 0,
+        "w": 105,
+        "h": 212
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 105,
+        "h": 212
+      },
+      "sourceSize": {
+        "w": 105,
+        "h": 212
+      }
+    },
+    "tile_road_corner": {
+      "frame": {
+        "x": 420,
+        "y": 0,
+        "w": 105,
+        "h": 212
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 105,
+        "h": 212
+      },
+      "sourceSize": {
+        "w": 105,
+        "h": 212
+      }
+    },
+    "tile_road_cross": {
+      "frame": {
+        "x": 525,
+        "y": 0,
+        "w": 105,
+        "h": 212
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 105,
+        "h": 212
+      },
+      "sourceSize": {
+        "w": 105,
+        "h": 212
+      }
+    },
+    "tile_concrete": {
+      "frame": {
+        "x": 630,
+        "y": 0,
+        "w": 105,
+        "h": 212
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 105,
+        "h": 212
+      },
+      "sourceSize": {
+        "w": 105,
+        "h": 212
+      }
+    },
+    "tile_grass_variant": {
+      "frame": {
+        "x": 0,
+        "y": 212,
+        "w": 105,
+        "h": 212
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 105,
+        "h": 212
+      },
+      "sourceSize": {
+        "w": 105,
+        "h": 212
+      }
+    },
+    "tile_dirt_detail": {
+      "frame": {
+        "x": 105,
+        "y": 212,
+        "w": 105,
+        "h": 212
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 105,
+        "h": 212
+      },
+      "sourceSize": {
+        "w": 105,
+        "h": 212
+      }
+    },
+    "tile_industrial_ground": {
+      "frame": {
+        "x": 210,
+        "y": 212,
+        "w": 105,
+        "h": 212
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 105,
+        "h": 212
+      },
+      "sourceSize": {
+        "w": 105,
+        "h": 212
+      }
+    },
+    "tile_road_t": {
+      "frame": {
+        "x": 315,
+        "y": 212,
+        "w": 105,
+        "h": 212
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 105,
+        "h": 212
+      },
+      "sourceSize": {
+        "w": 105,
+        "h": 212
+      }
+    },
+    "tile_road_end": {
+      "frame": {
+        "x": 420,
+        "y": 212,
+        "w": 105,
+        "h": 212
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 105,
+        "h": 212
+      },
+      "sourceSize": {
+        "w": 105,
+        "h": 212
+      }
+    },
+    "tile_road_small_corner": {
+      "frame": {
+        "x": 525,
+        "y": 212,
+        "w": 105,
+        "h": 212
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 105,
+        "h": 212
+      },
+      "sourceSize": {
+        "w": 105,
+        "h": 212
+      }
+    },
+    "tile_concrete_dark": {
+      "frame": {
+        "x": 630,
+        "y": 212,
+        "w": 105,
+        "h": 212
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 105,
+        "h": 212
+      },
+      "sourceSize": {
+        "w": 105,
+        "h": 212
+      }
+    },
+    "tile_grass_dense": {
+      "frame": {
+        "x": 0,
+        "y": 424,
+        "w": 105,
+        "h": 212
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 105,
+        "h": 212
+      },
+      "sourceSize": {
+        "w": 105,
+        "h": 212
+      }
+    },
+    "tile_grass_rock": {
+      "frame": {
+        "x": 105,
+        "y": 424,
+        "w": 105,
+        "h": 212
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 105,
+        "h": 212
+      },
+      "sourceSize": {
+        "w": 105,
+        "h": 212
+      }
+    },
+    "tile_industrial_mark": {
+      "frame": {
+        "x": 210,
+        "y": 424,
+        "w": 105,
+        "h": 212
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 105,
+        "h": 212
+      },
+      "sourceSize": {
+        "w": 105,
+        "h": 212
+      }
+    },
+    "tile_road_split": {
+      "frame": {
+        "x": 315,
+        "y": 424,
+        "w": 105,
+        "h": 212
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 105,
+        "h": 212
+      },
+      "sourceSize": {
+        "w": 105,
+        "h": 212
+      }
+    },
+    "tile_road_cross_large": {
+      "frame": {
+        "x": 420,
+        "y": 424,
+        "w": 105,
+        "h": 212
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 105,
+        "h": 212
+      },
+      "sourceSize": {
+        "w": 105,
+        "h": 212
+      }
+    },
+    "tile_road_industrial": {
+      "frame": {
+        "x": 525,
+        "y": 424,
+        "w": 105,
+        "h": 212
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 105,
+        "h": 212
+      },
+      "sourceSize": {
+        "w": 105,
+        "h": 212
+      }
+    },
+    "tile_road_end_small": {
+      "frame": {
+        "x": 630,
+        "y": 424,
+        "w": 105,
+        "h": 212
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 105,
+        "h": 212
+      },
+      "sourceSize": {
+        "w": 105,
+        "h": 212
+      }
+    },
+    "tile_grass_big": {
+      "frame": {
+        "x": 0,
+        "y": 636,
+        "w": 105,
+        "h": 212
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 105,
+        "h": 212
+      },
+      "sourceSize": {
+        "w": 105,
+        "h": 212
+      }
+    },
+    "tile_dirt_edge": {
+      "frame": {
+        "x": 105,
+        "y": 636,
+        "w": 105,
+        "h": 212
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 105,
+        "h": 212
+      },
+      "sourceSize": {
+        "w": 105,
+        "h": 212
+      }
+    },
+    "tile_road_single": {
+      "frame": {
+        "x": 210,
+        "y": 636,
+        "w": 105,
+        "h": 212
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 105,
+        "h": 212
+      },
+      "sourceSize": {
+        "w": 105,
+        "h": 212
+      }
+    },
+    "tile_road_t_small": {
+      "frame": {
+        "x": 315,
+        "y": 636,
+        "w": 105,
+        "h": 212
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 105,
+        "h": 212
+      },
+      "sourceSize": {
+        "w": 105,
+        "h": 212
+      }
+    },
+    "tile_road_cross_small": {
+      "frame": {
+        "x": 420,
+        "y": 636,
+        "w": 105,
+        "h": 212
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 105,
+        "h": 212
+      },
+      "sourceSize": {
+        "w": 105,
+        "h": 212
+      }
+    },
+    "tile_shoreline": {
+      "frame": {
+        "x": 525,
+        "y": 636,
+        "w": 105,
+        "h": 212
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 105,
+        "h": 212
+      },
+      "sourceSize": {
+        "w": 105,
+        "h": 212
+      }
+    },
+    "tile_concrete_tile": {
+      "frame": {
+        "x": 630,
+        "y": 636,
+        "w": 105,
+        "h": 212
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 105,
+        "h": 212
+      },
+      "sourceSize": {
+        "w": 105,
+        "h": 212
+      }
+    },
+    "tile_river_left": {
+      "frame": {
+        "x": 0,
+        "y": 848,
+        "w": 105,
+        "h": 212
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 105,
+        "h": 212
+      },
+      "sourceSize": {
+        "w": 105,
+        "h": 212
+      }
+    },
+    "tile_river_center": {
+      "frame": {
+        "x": 105,
+        "y": 848,
+        "w": 105,
+        "h": 212
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 105,
+        "h": 212
+      },
+      "sourceSize": {
+        "w": 105,
+        "h": 212
+      }
+    },
+    "tile_river_right": {
+      "frame": {
+        "x": 210,
+        "y": 848,
+        "w": 105,
+        "h": 212
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 105,
+        "h": 212
+      },
+      "sourceSize": {
+        "w": 105,
+        "h": 212
+      }
+    },
+    "tile_industrial_road": {
+      "frame": {
+        "x": 315,
+        "y": 848,
+        "w": 105,
+        "h": 212
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 105,
+        "h": 212
+      },
+      "sourceSize": {
+        "w": 105,
+        "h": 212
+      }
+    },
+    "tile_concrete_road": {
+      "frame": {
+        "x": 420,
+        "y": 848,
+        "w": 105,
+        "h": 212
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 105,
+        "h": 212
+      },
+      "sourceSize": {
+        "w": 105,
+        "h": 212
+      }
+    },
+    "tile_crack_ground": {
+      "frame": {
+        "x": 525,
+        "y": 848,
+        "w": 105,
+        "h": 212
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 105,
+        "h": 212
+      },
+      "sourceSize": {
+        "w": 105,
+        "h": 212
+      }
+    },
+    "tile_industrial_warning": {
+      "frame": {
+        "x": 630,
+        "y": 848,
+        "w": 105,
+        "h": 212
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 105,
+        "h": 212
+      },
+      "sourceSize": {
+        "w": 105,
+        "h": 212
+      }
+    },
+    "tile_grass_clean": {
+      "frame": {
+        "x": 0,
+        "y": 1060,
+        "w": 105,
+        "h": 212
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 105,
+        "h": 212
+      },
+      "sourceSize": {
+        "w": 105,
+        "h": 212
+      }
+    },
+    "tile_industrial_dirt": {
+      "frame": {
+        "x": 105,
+        "y": 1060,
+        "w": 105,
+        "h": 212
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 105,
+        "h": 212
+      },
+      "sourceSize": {
+        "w": 105,
+        "h": 212
+      }
+    },
+    "tile_industrial_corner": {
+      "frame": {
+        "x": 210,
+        "y": 1060,
+        "w": 105,
+        "h": 212
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 105,
+        "h": 212
+      },
+      "sourceSize": {
+        "w": 105,
+        "h": 212
+      }
+    },
+    "tile_shadow_tile": {
+      "frame": {
+        "x": 315,
+        "y": 1060,
+        "w": 105,
+        "h": 212
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 105,
+        "h": 212
+      },
+      "sourceSize": {
+        "w": 105,
+        "h": 212
+      }
+    },
+    "tile_concrete_small": {
+      "frame": {
+        "x": 420,
+        "y": 1060,
+        "w": 105,
+        "h": 212
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 105,
+        "h": 212
+      },
+      "sourceSize": {
+        "w": 105,
+        "h": 212
+      }
+    },
+    "tile_barrier_yellow": {
+      "frame": {
+        "x": 525,
+        "y": 1060,
+        "w": 105,
+        "h": 212
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 105,
+        "h": 212
+      },
+      "sourceSize": {
+        "w": 105,
+        "h": 212
+      }
+    },
+    "tile_barrier_white": {
+      "frame": {
+        "x": 630,
+        "y": 1060,
+        "w": 105,
+        "h": 212
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 105,
+        "h": 212
+      },
+      "sourceSize": {
+        "w": 105,
+        "h": 212
+      }
+    }
+  },
+  "meta": {
+    "app": "generate-atlases",
+    "version": "1",
+    "image": "tiles_sheet.png",
+    "format": "RGBA8888",
+    "size": {
+      "w": 735,
+      "h": 1272
+    },
+    "scale": "1"
+  }
+}

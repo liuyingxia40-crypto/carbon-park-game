@@ -1,0 +1,54 @@
+.game-shell {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: linear-gradient(165deg, #87ceeb 0%, #b8dff5 35%, #c8e6c9 100%);
+  font-family: 'Segoe UI', 'Microsoft YaHei', system-ui, sans-serif;
+}
+
+.game-body {
+  flex: 1;
+  display: flex;
+  min-height: 0;
+  min-width: 0;
+  padding: 8px 12px;
+}
+
+.game-viewport {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.35),
+    0 8px 32px rgba(60, 100, 140, 0.18);
+  background: linear-gradient(180deg, #7ec8e8 0%, #a8d8ea 50%, #90c695 100%);
+}
+
+.game-viewport > * {
+  pointer-events: none;
+}
+
+.game-viewport .phaser-game,
+.game-viewport .info-panel {
+  pointer-events: auto;
+}
+
+.game-viewport .phaser-game {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.game-viewport__sky {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse 80% 50% at 50% 0%, rgba(255, 255, 255, 0.45), transparent 70%);
+  z-index: 1;
+}

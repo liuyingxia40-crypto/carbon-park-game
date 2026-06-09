@@ -1,0 +1,507 @@
+/* 日式轻经营 · 浅色卡片 UI（Pocket City / 开罗风） */
+
+:root {
+  --bg: #e8f2f8;
+  --bg-card: #fafcfd;
+  --bg-card-shadow: 0 2px 12px rgba(60, 90, 120, 0.12);
+  --border: #d0dde8;
+  --text: #3a4a58;
+  --text-muted: #7a8a98;
+  --text-strong: #2a3848;
+  --accent: #5ab0c8;
+  --accent-green: #6bc9a0;
+  --accent-gold: #e8b060;
+  --accent-warn: #e89070;
+  --radius: 10px;
+  --sidebar-w: 188px;
+}
+
+.game-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Segoe UI', 'Microsoft YaHei', 'Hiragino Sans GB', sans-serif;
+}
+
+/* —— 顶栏 —— */
+.top-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 14px 6px;
+  background: linear-gradient(180deg, #f8fcff 0%, #eef6fa 100%);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.top-bar__brand {
+  flex-shrink: 0;
+}
+
+.top-bar__brand h1 {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-strong);
+  letter-spacing: 0.04em;
+}
+
+.top-bar__brand p {
+  margin: 2px 0 0;
+  font-size: 0.62rem;
+  color: var(--text-muted);
+}
+
+.top-bar__center {
+  flex: 1;
+  min-width: 0;
+}
+
+.top-bar__actions {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+/* 资源栏 */
+.resource-bar {
+  width: 100%;
+}
+
+.resource-bar__bg {
+  border-radius: var(--radius) !important;
+  overflow: hidden;
+  box-shadow: var(--bg-card-shadow);
+}
+
+.resource-bar__inner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px 6px 14px;
+  min-height: 52px;
+}
+
+.resource-bar__kpi {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+}
+
+.resource-bar__kpi strong {
+  display: block;
+  font-size: 0.88rem;
+  color: var(--text-strong);
+  line-height: 1.2;
+}
+
+.resource-bar__kpi em {
+  font-size: 0.58rem;
+  color: var(--text-muted);
+  font-style: normal;
+}
+
+.resource-bar__label {
+  font-size: 0.58rem;
+  color: var(--text-muted);
+  letter-spacing: 0.06em;
+}
+
+.resource-bar__meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  padding-left: 8px;
+  border-left: 1px solid rgba(120, 150, 170, 0.25);
+}
+
+.resource-bar__grade {
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: var(--accent);
+}
+
+.resource-bar__tier {
+  font-size: 0.58rem;
+  color: var(--text-muted);
+}
+
+/* 时间条（浅色） */
+.game-time-bar {
+  flex: 1;
+  max-width: 420px;
+  margin: 0 !important;
+  padding: 6px 10px !important;
+  background: var(--bg-card) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius) !important;
+  box-shadow: var(--bg-card-shadow);
+}
+
+.game-time-bar__year {
+  color: var(--text-strong) !important;
+}
+
+.game-time-bar__quarter,
+.game-time-bar__day {
+  color: var(--text-muted) !important;
+}
+
+.game-time-bar__year-fill {
+  background: linear-gradient(90deg, #8ad4e8, #6bc9a0) !important;
+}
+
+.game-time-bar__speed {
+  background: #f0f6fa !important;
+  border-color: var(--border) !important;
+  color: var(--text) !important;
+}
+
+.game-time-bar__speed--active {
+  border-color: var(--accent) !important;
+  background: rgba(90, 176, 200, 0.2) !important;
+  color: var(--text-strong) !important;
+}
+
+.game-time-bar__hint {
+  color: var(--text-muted) !important;
+}
+
+/* —— 工作区：地图为主 —— */
+.workspace {
+  flex: 1;
+  display: flex;
+  min-height: 0;
+  padding: 8px;
+  gap: 8px;
+}
+
+.build-sidebar {
+  width: var(--sidebar-w);
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.build-sidebar__panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+  border-radius: var(--radius);
+  box-shadow: var(--bg-card-shadow);
+}
+
+.build-sidebar__panel .ui-sprite {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  background-repeat: repeat-y !important;
+  background-size: 100% auto !important;
+}
+
+.build-sidebar__scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px 10px 12px;
+}
+
+.build-sidebar__title {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--text-strong);
+}
+
+.build-sidebar__title em {
+  font-size: 0.6rem;
+  color: var(--accent);
+  font-style: normal;
+}
+
+.map-stage {
+  flex: 1;
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: #b8d8e8;
+  box-shadow: var(--bg-card-shadow);
+  border: 2px solid #fff;
+}
+
+.map-stage .phaser-game {
+  position: absolute;
+  inset: 0;
+}
+
+/* —— 建造卡片 —— */
+.deploy-section {
+  margin-bottom: 10px;
+}
+
+.deploy-section__title {
+  display: block;
+  font-size: 0.62rem;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+  letter-spacing: 0.08em;
+}
+
+.deploy-card {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  margin-bottom: 6px;
+  padding: 6px 8px;
+  text-align: left;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg-card);
+  cursor: pointer;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.deploy-card:hover:not(:disabled) {
+  border-color: var(--accent);
+  box-shadow: 0 2px 8px rgba(90, 176, 200, 0.2);
+}
+
+.deploy-card--active {
+  border-color: var(--accent-green);
+  background: #f0faf4;
+}
+
+.deploy-card--locked {
+  opacity: 0.55;
+}
+
+.deploy-card__info strong {
+  display: block;
+  font-size: 0.72rem;
+  color: var(--text-strong);
+}
+
+.deploy-card__price {
+  font-size: 0.62rem;
+  color: var(--accent-gold);
+}
+
+.deploy-card__meta {
+  display: block;
+  font-size: 0.55rem;
+  color: var(--text-muted);
+  line-height: 1.3;
+}
+
+.deploy-card__lock {
+  font-size: 0.55rem;
+  color: var(--accent-warn);
+}
+
+.deploy-abort {
+  width: 100%;
+  margin-top: 8px;
+  padding: 8px;
+  border: 1px solid var(--accent-warn);
+  border-radius: 8px;
+  background: #fff5f2;
+  color: var(--accent-warn);
+  font-size: 0.72rem;
+  cursor: pointer;
+}
+
+/* —— 轻量横幅 —— */
+.banner-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 0 14px 6px;
+  flex-shrink: 0;
+}
+
+.soft-banner {
+  flex: 1;
+  min-width: 200px;
+  padding: 6px 12px;
+  font-size: 0.68rem;
+  border-radius: 8px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  color: var(--text);
+  box-shadow: var(--bg-card-shadow);
+}
+
+.soft-banner strong {
+  color: var(--text-strong);
+}
+
+.soft-banner__timer {
+  float: right;
+  color: var(--text-muted);
+}
+
+.toast-soft {
+  margin: 0 14px 6px;
+  padding: 6px 12px;
+  font-size: 0.68rem;
+  border-radius: 8px;
+  background: #fff;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+}
+
+/* —— 侧栏政策/排放小卡 —— */
+.sidebar-mini {
+  margin-top: 8px;
+  padding: 8px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.65);
+  border: 1px solid var(--border);
+}
+
+.sidebar-mini__bar {
+  height: 5px;
+  margin: 6px 0;
+  background: #e8eef2;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.sidebar-mini__fill {
+  height: 100%;
+  background: linear-gradient(90deg, #8ad4e8, #6bc9a0);
+  border-radius: 3px;
+  transition: width 0.2s ease;
+}
+
+.sidebar-mini__fill--over {
+  background: linear-gradient(90deg, #e8a060, #e07060);
+}
+
+.policy-btn-sm {
+  display: block;
+  width: 100%;
+  margin-top: 4px;
+  padding: 5px 8px;
+  font-size: 0.6rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: #fff;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.policy-btn-sm:disabled {
+  opacity: 0.45;
+}
+
+.demo-toggle {
+  padding: 6px 12px;
+  font-size: 0.65rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg-card);
+  color: var(--text);
+  cursor: pointer;
+}
+
+.demo-toggle--active {
+  border-color: var(--accent-green);
+  color: var(--accent-green);
+  background: #f0faf4;
+}
+
+.ops-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 4px;
+  font-size: 0.6rem;
+}
+
+.ops-row em {
+  font-style: normal;
+  color: var(--text-muted);
+}
+
+.ops-maxed {
+  font-size: 0.55rem;
+  color: var(--accent-green);
+}
+
+/* 隐藏旧版重型 UI */
+.industrial-app .dashboard,
+.industrial-app .platform-goal-banner,
+.industrial-app .victory-bar,
+.industrial-app .carbon-strip,
+.industrial-app .rhythm-bar,
+.industrial-app .analytics-panel,
+.industrial-app .map-viewport__scanlines,
+.industrial-app .map-viewport__frame {
+  display: none !important;
+}
+
+/* 年度报告 · 浅色 */
+.year-report-overlay {
+  background: rgba(200, 220, 235, 0.65);
+}
+
+.year-report {
+  background: var(--bg-card) !important;
+  border: 1px solid var(--border) !important;
+  color: var(--text) !important;
+  box-shadow: 0 8px 32px rgba(60, 90, 120, 0.2);
+}
+
+.year-report__head h2 {
+  color: var(--text-strong) !important;
+}
+
+/* 引导 */
+.guide-panel {
+  border-color: var(--border) !important;
+  background: var(--bg-card) !important;
+}
+
+/* 路线选择 */
+.route-picker {
+  margin: 0 14px 8px;
+  padding: 12px;
+  border-radius: var(--radius);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  box-shadow: var(--bg-card-shadow);
+}
+
+.route-picker__btn {
+  border: 1px solid var(--border) !important;
+  background: #fff !important;
+  color: var(--text) !important;
+  border-radius: 8px !important;
+}
+
+.route-picker__btn:hover {
+  border-color: var(--accent) !important;
+}
+
+.unlock-toast {
+  border-radius: 10px !important;
+  box-shadow: var(--bg-card-shadow) !important;
+}

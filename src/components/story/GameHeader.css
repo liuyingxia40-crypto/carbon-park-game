@@ -1,0 +1,232 @@
+.hud {
+  flex-shrink: 0;
+  z-index: 30;
+  display: grid;
+  grid-template-columns: minmax(180px, 1.1fr) minmax(220px, 1.4fr) minmax(200px, 1.2fr);
+  gap: clamp(6px, 1vw, 10px);
+  padding: clamp(5px, 1vh, 8px) clamp(8px, 1.5vw, 14px);
+  background: linear-gradient(180deg, #3d5248 0%, #2f4238 100%);
+  border-bottom: 3px solid #1a2420;
+  box-shadow:
+    0 4px 0 #1a2420,
+    0 8px 20px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+.hud__panel {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  padding: clamp(4px, 0.8vh, 7px) clamp(8px, 1.2vw, 12px);
+  background: linear-gradient(180deg, #f7f2e4 0%, #e6ede0 100%);
+  border: 2.5px solid #2d3a34;
+  border-radius: 14px;
+  box-shadow:
+    0 3px 0 #2d3a34,
+    inset 0 1px 0 rgba(255, 255, 255, 0.75);
+}
+
+.hud__panel--brand {
+  gap: clamp(6px, 1vw, 10px);
+}
+
+.hud__panel--resources {
+  justify-content: space-evenly;
+  gap: clamp(4px, 0.8vw, 8px);
+  flex-wrap: nowrap;
+}
+
+.hud__panel--phase {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 4px;
+  padding-block: clamp(4px, 0.7vh, 6px);
+}
+
+.hud__icon {
+  flex-shrink: 0;
+  width: clamp(32px, 5vh, 42px);
+  height: clamp(32px, 5vh, 42px);
+}
+
+.hud__icon svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.hud__titles {
+  min-width: 0;
+}
+
+.hud__title {
+  margin: 0;
+  font-size: clamp(0.68rem, 1.8vw, 0.88rem);
+  font-weight: 900;
+  color: #1b4332;
+  line-height: 1.15;
+  letter-spacing: 0.02em;
+}
+
+.hud__subtitle {
+  margin: 2px 0 0;
+  font-size: clamp(0.52rem, 1.3vw, 0.62rem);
+  font-weight: 700;
+  color: #5a6a62;
+}
+
+.hud-stat {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  justify-content: center;
+  gap: 0;
+  min-width: 0;
+  flex: 1;
+  padding: clamp(4px, 0.7vh, 6px) clamp(6px, 1vw, 10px);
+  background: rgba(255, 255, 255, 0.55);
+  border: 2px solid rgba(45, 58, 52, 0.4);
+  border-radius: 10px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  white-space: nowrap;
+}
+
+.hud-stat--green {
+  background: rgba(220, 252, 231, 0.7);
+  border-color: #52b788;
+}
+
+.hud-stat--amber {
+  background: rgba(255, 243, 224, 0.75);
+  border-color: #d4a574;
+}
+
+.hud-stat--blue {
+  background: rgba(219, 234, 254, 0.75);
+  border-color: #7eb8d4;
+}
+
+.hud-stat--red {
+  background: rgba(254, 226, 226, 0.75);
+  border-color: #e07a7a;
+}
+
+.hud-stat__icon {
+  display: none;
+}
+
+.hud-stat__body {
+  display: contents;
+}
+
+.hud-stat__label {
+  font-size: clamp(0.48rem, 1.15vw, 0.56rem);
+  font-weight: 800;
+  color: #6a7a72;
+  line-height: 1;
+}
+
+.hud-stat__label::after {
+  content: '：';
+}
+
+.hud-stat__value {
+  font-size: clamp(0.64rem, 1.65vw, 0.78rem);
+  font-weight: 900;
+  color: #2a3238;
+  white-space: nowrap;
+  line-height: 1.15;
+}
+
+.hud-stat__suffix {
+  font-size: 0.85em;
+  font-weight: 700;
+  color: #6a7a72;
+}
+
+.hud__phase-head {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.hud__phase-label {
+  font-size: clamp(0.48rem, 1.1vw, 0.55rem);
+  font-weight: 800;
+  color: #6a7a72;
+}
+
+.hud__phase-name {
+  font-size: clamp(0.62rem, 1.5vw, 0.76rem);
+  font-weight: 900;
+  color: #1b4332;
+}
+
+.hud__track {
+  display: none;
+}
+
+.hud__flow {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  width: 100%;
+  overflow: hidden;
+  line-height: 1.2;
+}
+
+.hud__flow-segment {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.hud__flow-arrow {
+  margin: 0 clamp(2px, 0.4vw, 4px);
+  font-size: clamp(0.48rem, 1.1vw, 0.56rem);
+  font-weight: 900;
+  color: #8a9490;
+}
+
+.hud__flow-step {
+  font-size: clamp(0.46rem, 1.05vw, 0.54rem);
+  font-weight: 700;
+  color: #8a9490;
+  white-space: nowrap;
+}
+
+.hud__flow-step--current {
+  color: #1b4332;
+  font-weight: 900;
+  padding: 1px 6px;
+  background: #ffd166;
+  border: 1.5px solid #2d3a34;
+  border-radius: 6px;
+  box-shadow: 0 2px 0 rgba(45, 58, 52, 0.25);
+}
+
+.hud__flow-step--done {
+  color: #40916c;
+  font-weight: 800;
+}
+
+@media (max-width: 680px) {
+  .hud {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+  }
+
+  .hud__panel--brand {
+    grid-column: 1;
+  }
+
+  .hud__panel--phase {
+    grid-column: 2;
+  }
+
+  .hud__panel--resources {
+    grid-column: 1 / -1;
+  }
+}

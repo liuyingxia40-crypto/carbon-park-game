@@ -1,0 +1,509 @@
+/* 沪上建设社 · 界面复刻 */
+
+:root {
+  --sh-ink: #1a1a1a;
+  --sh-ink-soft: #4a4a4a;
+  --sh-border: #2a2a2a;
+  --sh-cream: #fdfbf3;
+  --sh-grass: #a8d67f;
+  --sh-grass-deep: #8ec45e;
+  --sh-sky-top: #c8e8f8;
+  --sh-sky-mid: #dceef8;
+  --sh-funds-bg: #dff2d8;
+  --sh-traffic-bg: #f9dedc;
+  --sh-build-tab: #f5d76e;
+  --sh-info-tab: #b8dce8;
+  --sh-hud-h: 58px;
+  --sh-rail-w: 28px;
+  --sh-panel-w: 56px;
+}
+
+.shanghai-app {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--sh-cream);
+  overflow: hidden;
+  font-family: 'Microsoft YaHei', 'PingFang SC', 'Segoe UI', sans-serif;
+  color: var(--sh-ink);
+}
+
+/* —— 顶栏 —— */
+.shanghai-hud {
+  flex: 0 0 var(--sh-hud-h);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 12px;
+  background: var(--sh-cream);
+  border-bottom: 2px solid var(--sh-border);
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.06);
+  z-index: 30;
+}
+
+.shanghai-hud__brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  padding-right: 10px;
+  border-right: 2px solid rgba(0, 0, 0, 0.08);
+}
+
+.shanghai-hud__logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  background: #d4382a;
+  border: 2px solid var(--sh-border);
+  border-radius: 6px;
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #fff;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.shanghai-hud__titles {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.shanghai-hud__title {
+  font-size: 1.05rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  white-space: nowrap;
+}
+
+.shanghai-hud__subtitle {
+  font-size: 0.62rem;
+  font-weight: 600;
+  color: var(--sh-ink-soft);
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.shanghai-hud__stats {
+  display: flex;
+  flex: 1;
+  gap: 8px;
+  min-width: 0;
+  align-items: stretch;
+}
+
+.shanghai-stat {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 5px 12px;
+  background: #fff;
+  border: 2px solid var(--sh-border);
+  border-radius: 12px;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.08);
+}
+
+.shanghai-stat--funds {
+  background: var(--sh-funds-bg);
+}
+
+.shanghai-stat--traffic {
+  background: var(--sh-traffic-bg);
+}
+
+.shanghai-stat__label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--sh-ink-soft);
+  line-height: 1.1;
+}
+
+.shanghai-stat__value {
+  font-size: 1.05rem;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+}
+
+.shanghai-hud__heat {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 10px;
+  background: #fff;
+  border: 2px solid var(--sh-border);
+  border-radius: 12px;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.08);
+}
+
+.shanghai-hud__heat-label {
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.shanghai-toggle {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 52px;
+  height: 26px;
+  padding: 0 6px;
+  border: 2px solid var(--sh-border);
+  border-radius: 14px;
+  background: #e8e8e8;
+  cursor: pointer;
+}
+
+.shanghai-toggle--on {
+  background: #c8e8f0;
+}
+
+.shanghai-toggle__knob {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #fff;
+  border: 1.5px solid var(--sh-border);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+}
+
+.shanghai-toggle__text {
+  margin-left: auto;
+  font-size: 0.65rem;
+  font-weight: 800;
+}
+
+/* —— 主体三栏 —— */
+.shanghai-body {
+  flex: 1;
+  display: flex;
+  min-height: 0;
+}
+
+/* BUILD 侧栏 */
+.build-rail {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: row;
+  z-index: 20;
+  align-self: stretch;
+}
+
+.build-rail__tab {
+  flex: 0 0 var(--sh-rail-w);
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  background: var(--sh-build-tab);
+  border: 2px solid var(--sh-border);
+  border-right: none;
+  border-radius: 10px 0 0 10px;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.25em;
+  color: var(--sh-ink);
+  box-shadow: -2px 2px 0 rgba(0, 0, 0, 0.08);
+}
+
+.build-rail__panel {
+  flex: 0 0 var(--sh-panel-w);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px 4px;
+  background: rgba(255, 255, 255, 0.95);
+  border: 2px solid var(--sh-border);
+  border-left: none;
+}
+
+.build-rail__list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.build-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  width: 44px;
+  padding: 5px 3px;
+  border: 2px solid var(--sh-border);
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+}
+
+.build-btn--active {
+  border-color: #4a9e5c;
+  background: #e8f6ea;
+}
+
+.build-btn__name {
+  font-size: 0.48rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.build-rail__cancel {
+  margin-top: 8px;
+  padding: 4px 6px;
+  font-size: 0.5rem;
+  font-weight: 700;
+  border: 1.5px solid var(--sh-border);
+  border-radius: 6px;
+  background: #ffe8e0;
+  cursor: pointer;
+}
+
+/* INFO 侧栏 */
+.info-rail {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: row-reverse;
+  z-index: 20;
+  align-self: stretch;
+}
+
+.info-rail__tab {
+  flex: 0 0 var(--sh-rail-w);
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  background: var(--sh-info-tab);
+  border: 2px solid var(--sh-border);
+  border-left: none;
+  border-radius: 0 10px 10px 0;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.25em;
+  color: var(--sh-ink);
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.08);
+}
+
+.info-rail__panel {
+  flex: 0 0 140px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.96);
+  border: 2px solid var(--sh-border);
+  border-right: none;
+  font-size: 0.75rem;
+}
+
+.info-rail__title {
+  margin: 0 0 8px;
+  font-size: 0.85rem;
+  font-weight: 800;
+}
+
+.info-rail__list {
+  margin: 0;
+  padding-left: 1.1em;
+  color: var(--sh-ink-soft);
+  line-height: 1.5;
+}
+
+/* —— 地图舞台 —— */
+.shanghai-stage {
+  flex: 1;
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  background: var(--sh-grass);
+}
+
+.shanghai-stage__sky {
+  position: absolute;
+  inset: 0 0 35%;
+  z-index: 0;
+  background: linear-gradient(180deg, var(--sh-sky-top) 0%, var(--sh-sky-mid) 55%, transparent 100%);
+  pointer-events: none;
+}
+
+.shanghai-clouds {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 120px 40px at 15% 25%, rgba(255, 255, 255, 0.85) 0%, transparent 70%),
+    radial-gradient(ellipse 160px 50px at 55% 18%, rgba(255, 255, 255, 0.75) 0%, transparent 70%),
+    radial-gradient(ellipse 100px 35px at 82% 30%, rgba(255, 255, 255, 0.7) 0%, transparent 70%);
+  opacity: 0.9;
+}
+
+.shanghai-skyline {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 55%;
+  background:
+    linear-gradient(180deg, transparent 0%, rgba(168, 214, 248, 0.35) 40%, transparent 100%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 200' preserveAspectRatio='none'%3E%3Cpath fill='%2398c8e8' fill-opacity='0.55' d='M0 200 L0 120 L40 100 L60 140 L90 90 L120 130 L150 70 L180 110 L220 50 L260 95 L300 40 L340 85 L380 30 L420 75 L460 55 L500 90 L540 45 L580 80 L620 35 L660 70 L700 50 L740 85 L780 40 L820 75 L860 55 L900 90 L940 60 L980 100 L1020 70 L1060 110 L1100 80 L1140 120 L1200 95 L1200 200 Z'/%3E%3C/svg%3E")
+      center bottom / 100% 100% no-repeat;
+  opacity: 0.85;
+}
+
+.shanghai-stage__grass {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 70%, rgba(142, 196, 94, 0.35) 0%, transparent 70%),
+    linear-gradient(180deg, transparent 0%, var(--sh-grass) 28%, var(--sh-grass-deep) 100%);
+  pointer-events: none;
+}
+
+.shanghai-viewport {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.shanghai-viewport .phaser-game {
+  position: absolute;
+  inset: 0;
+}
+
+.shanghai-viewport .phaser-game canvas {
+  background: transparent !important;
+}
+
+/* 底部通知 */
+.shanghai-notice {
+  position: absolute;
+  left: 50%;
+  bottom: 14px;
+  transform: translateX(-50%);
+  z-index: 15;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  max-width: min(92%, 720px);
+  padding: 8px 20px;
+  background: rgba(253, 251, 243, 0.96);
+  border: 2px solid var(--sh-border);
+  border-radius: 24px;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.1);
+  pointer-events: none;
+}
+
+.shanghai-notice__icon {
+  font-size: 0.75rem;
+  flex-shrink: 0;
+  color: #e8a020;
+  line-height: 1;
+}
+
+.shanghai-notice__text {
+  margin: 0;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--sh-ink-soft);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* —— 工厂地图模式 —— */
+.shanghai-stage--factory {
+  background: linear-gradient(180deg, #c8e8f8 0%, #b8dfc0 55%, #a8d67f 100%);
+}
+
+.shanghai-stage--factory .shanghai-viewport {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.shanghai-hud__logo--factory {
+  background: #2b6cb0;
+}
+
+.build-rail__panel--factory {
+  flex: 0 0 72px;
+  max-height: 100%;
+  overflow-y: auto;
+}
+
+.build-btn__icon {
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+.build-btn__price {
+  font-size: 0.42rem;
+  font-weight: 700;
+  color: #c27803;
+}
+
+.info-rail__panel--factory {
+  flex: 0 0 168px;
+  overflow-y: auto;
+}
+
+.info-rail__icon {
+  font-size: 1.8rem;
+  text-align: center;
+  margin: 6px 0;
+}
+
+.info-rail__price {
+  margin: 0 0 6px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #c27803;
+}
+
+.info-rail__desc {
+  margin: 0 0 8px;
+  line-height: 1.5;
+  color: var(--sh-ink-soft);
+}
+
+.info-rail__subtitle {
+  margin: 10px 0 4px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: var(--sh-ink);
+}
+
+.info-rail__toast {
+  margin: 8px 0;
+  padding: 6px 8px;
+  border-radius: 8px;
+  font-size: 0.68rem;
+  background: #fde8e8;
+  color: #b91c1c;
+  border: 1px solid #f5c2c2;
+}
+
+.info-rail__toast--ok {
+  background: #e8f6ea;
+  color: #15803d;
+  border-color: #b8e0c0;
+}
+
+/* 隐藏旧工业风 */
+.industrial-app .dashboard,
+.industrial-app .game-hud,
+.industrial-app .game-body,
+.industrial-app .map-stage,
+.industrial-app .map-hint {
+  display: none !important;
+}
