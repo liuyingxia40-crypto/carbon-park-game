@@ -1,35 +1,87 @@
-/* 第一阶段 · 微信横屏小游戏布局 */
+/* 游戏主界面：全屏沉浸式布局 */
 
-.story-app {
-  position: relative;
-  display: flex;
-  flex-direction: column;
+.game-screen {
+  --ui-font: var(--game-font, 'Microsoft YaHei UI', 'PingFang SC', sans-serif);
+
+  position: fixed;
+  inset: 0;
   width: 100vw;
   height: 100vh;
   height: 100dvh;
-  max-width: 100vw;
-  max-height: 100vh;
   overflow: hidden;
   touch-action: manipulation;
   user-select: none;
   -webkit-user-select: none;
-  background: #c8d8c4;
-  font-family: 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif;
+  background: linear-gradient(180deg, #b8e6ff 0%, #d4f0ff 40%, #e8f8ff 100%);
+  font-family: var(--ui-font);
+  color: var(--game-text, #2a4a62);
 }
 
-.story-main {
-  flex: 1;
-  min-height: 0;
-  display: flex;
-  flex-direction: column;
+.game-screen__main {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   overflow: hidden;
 }
 
-.story-app,
-.story-app * {
+/* UI 浮层：覆盖在地图之上 */
+.ui-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  pointer-events: none;
+}
+
+.ui-overlay > .top-hud,
+.ui-overlay > .bottom-action-bar,
+.ui-overlay > .decision-panel-game,
+.ui-overlay > .story-hint-toast {
+  pointer-events: auto;
+}
+
+.story-hint-toast {
+  position: absolute;
+  top: clamp(96px, 14vh, 120px);
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: min(380px, 90vw);
+  padding: clamp(8px, 1.5vh, 12px) clamp(16px, 3vw, 22px);
+  border-radius: var(--game-radius-pill, 999px);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(232, 248, 255, 0.94) 100%);
+  border: 2px solid rgba(120, 190, 230, 0.55);
+  box-shadow: 0 4px 14px rgba(74, 140, 200, 0.22);
+  font-size: clamp(12px, 2.2vw, 15px);
+  font-weight: 700;
+  color: var(--game-text, #2a4a62);
+  text-align: center;
+  animation: hint-toast-in 0.25s ease;
+  z-index: 24;
+}
+
+@keyframes hint-toast-in {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+.game-screen,
+.game-screen * {
   scrollbar-width: none;
 }
 
-.story-app *::-webkit-scrollbar {
+.game-screen *::-webkit-scrollbar {
   display: none;
+}
+
+/* 竖屏 HUD 适配 */
+@media (max-width: 640px) {
+  .top-hud__resources {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }

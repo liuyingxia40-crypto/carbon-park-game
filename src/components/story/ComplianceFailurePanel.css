@@ -1,0 +1,112 @@
+.compliance-failure {
+  position: absolute;
+  inset: 0;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(12px, 2.5vw, 24px);
+  pointer-events: auto;
+  font-family: var(--game-font, 'Microsoft YaHei UI', sans-serif);
+}
+
+.compliance-failure__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(120, 180, 220, 0.35);
+}
+
+.compliance-failure__panel {
+  position: relative;
+  width: min(440px, 92vw);
+  padding: clamp(22px, 3.2vh, 28px) clamp(22px, 3.5vw, 30px) clamp(18px, 2.8vh, 24px);
+  background: linear-gradient(180deg, #ffffff 0%, #eef8ff 100%);
+  border: 2px solid rgba(120, 190, 230, 0.65);
+  border-radius: 24px;
+  box-shadow: 0 8px 28px rgba(74, 140, 200, 0.28);
+}
+
+.compliance-failure__corner {
+  display: none;
+}
+
+.compliance-failure__title {
+  margin: 0 0 12px;
+  font-size: 20px;
+  font-weight: 900;
+  color: #e06050;
+  text-align: center;
+}
+
+.compliance-failure__copy {
+  margin: 0 0 16px;
+}
+
+.compliance-failure__copy p {
+  margin: 0 0 8px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.5;
+  color: #4a7a9a;
+}
+
+.compliance-failure__stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin: 0 0 20px;
+}
+
+.compliance-failure__stat {
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.85);
+  border: 2px solid rgba(120, 190, 230, 0.4);
+}
+
+.compliance-failure__stat dt {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 700;
+  color: #5a7a92;
+}
+
+.compliance-failure__stat dd {
+  margin: 4px 0 0;
+  font-size: 15px;
+  font-weight: 900;
+  color: #2a4a62;
+}
+
+.compliance-failure__stat--bad {
+  color: #e06050 !important;
+}
+
+.compliance-failure__actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+.compliance-failure__btn {
+  flex: 1;
+  padding: 12px 16px;
+  border: 2px solid rgba(255, 255, 255, 0.85);
+  border-radius: 16px;
+  background: linear-gradient(180deg, #6ec4ff 0%, #4aabef 100%);
+  box-shadow: 0 4px 0 #2a7ec8, 0 6px 14px rgba(58, 150, 224, 0.35);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 900;
+  cursor: pointer;
+  transition: transform 0.12s ease;
+}
+
+.compliance-failure__btn:active {
+  transform: scale(0.96);
+}
+
+.compliance-failure__btn:first-child {
+  background: linear-gradient(180deg, #6ee8a0 0%, #3db872 100%);
+  box-shadow: 0 4px 0 #2a9858, 0 6px 14px rgba(61, 184, 114, 0.35);
+}

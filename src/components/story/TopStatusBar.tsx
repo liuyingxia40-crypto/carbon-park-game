@@ -3,6 +3,7 @@ import {
   PHASE_LABEL,
   TARGET_EMISSION,
 } from '../../game/story/phase1Script';
+import { formatWanYuan } from '../../game/story/compliance';
 import type { GameState } from '../../game/story/gameState';
 import './TopStatusBar.css';
 
@@ -17,7 +18,7 @@ export function TopStatusBar({ state }: Props) {
     <header className="story-topbar">
       <div className="story-topbar__pill">
         <span className="story-topbar__label">资金</span>
-        <span className="story-topbar__value">{state.funds.toLocaleString()}</span>
+        <span className="story-topbar__value">{formatWanYuan(state.funds)}</span>
       </div>
       <div className="story-topbar__pill story-topbar__pill--emission">
         <span className="story-topbar__label">当前排放</span>

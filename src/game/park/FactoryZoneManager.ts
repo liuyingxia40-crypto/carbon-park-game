@@ -20,24 +20,44 @@ type VisualMode =
   | 'initial_done'
   | 'deep_available'
   | 'deep_hover'
-  | 'deep_done';
+  | 'deep_done'
+  | 'idle';
 
 type ZoneVisual = {
   factory: RetrofitFactory;
   highlight: Phaser.GameObjects.Graphics;
   badge: Phaser.GameObjects.Text;
   pendingLabel: Phaser.GameObjects.Text;
+  recommendTag: Phaser.GameObjects.Text;
   nameLabel: Phaser.GameObjects.Text;
+  statusTag: Phaser.GameObjects.Text;
 };
+
+const ACTIONABLE_MODES: VisualMode[] = [
+  'diagnosis',
+  'diagnosis_hover',
+  'retrofit_pending',
+  'retrofit_hover',
+  'deep_available',
+  'deep_hover',
+];
 
 export class FactoryZoneManager {
   private readonly factories: RetrofitFactory[] = [];
   private readonly visuals = new Map<string, ZoneVisual>();
   private hoveredId: string | null = null;
+  private breathPhase = 0;
   private mapConfig: MapVisualConfig = {
     stageId: 'diagnosis',
     initialDone: [],
     deepDone: null,
+  };
+
+  private readonly updateHandler = () => {
+    this.breathPhase = 0.5 + 0.5 * Math.sin(Date.now() / 780);
+    if (this.hasActionableFactory()) {
+      this.redrawAll();
+    }
   };
 
   constructor(
@@ -51,6 +71,9 @@ export class FactoryZoneManager {
         this.visuals.set(factory.id, this.createVisual(factory));
       }
     }
+
+    scene.events.on('update', this.updateHandler);
+
     this.redrawAll();
   }
 
@@ -91,6 +114,39 @@ export class FactoryZoneManager {
     this.redrawAll();
   }
 
+  destroy() {
+    this.scene.events.off('update', this.updateHandler);
+  }
+
+  private hasActionableFactory(): boolean {
+    for (const factory of this.factories) {
+      if (ACTIONABLE_MODES.includes(this.resolveMode(factory.id))) return true;
+    }
+    return false;
+  }
+
+  private getRecommendedId(): string | null {
+    const { stageId, initialDone, deepDone } = this.mapConfig;
+
+    if (stageId === 'diagnosis') {
+      return this.factories[0]?.id ?? null;
+    }
+
+    if (stageId === 'retrofit') {
+      for (const factory of this.factories) {
+        if (!initialDone.includes(factory.id)) return factory.id;
+      }
+    }
+
+    if (stageId === 'deep_opt' && !deepDone) {
+      for (const factory of this.factories) {
+        if (initialDone.includes(factory.id)) return factory.id;
+      }
+    }
+
+    return null;
+  }
+
   private createVisual(factory: RetrofitFactory): ZoneVisual {
     const highlight = this.scene.add.graphics().setDepth(20);
     const badge = this.scene.add
@@ -98,8 +154,8 @@ export class FactoryZoneManager {
         fontFamily: '"PingFang SC", "Microsoft YaHei", sans-serif',
         fontSize: '12px',
         fontStyle: 'bold',
-        color: '#dcfce7',
-        backgroundColor: '#166534cc',
+        color: '#dde8d1',
+        backgroundColor: '#4c6b4fcc',
         padding: { x: 7, y: 3 },
       })
       .setOrigin(0.5)
@@ -107,30 +163,57 @@ export class FactoryZoneManager {
       .setVisible(false);
 
     const pendingLabel = this.scene.add
-      .text(factory.centerX, factory.centerY + 6, '', {
+      .text(factory.centerX, factory.centerY + 8, '', {
         fontFamily: '"PingFang SC", "Microsoft YaHei", sans-serif',
         fontSize: '12px',
-        color: '#fef3c7',
-        backgroundColor: '#78350fcc',
+        fontStyle: 'bold',
+        color: '#f0e1b8',
+        backgroundColor: '#3a3020cc',
         padding: { x: 6, y: 3 },
       })
       .setOrigin(0.5)
       .setDepth(24);
 
+    const recommendTag = this.scene.add
+      .text(factory.centerX, factory.centerY - 22, '推荐操作', {
+        fontFamily: '"PingFang SC", "Microsoft YaHei", sans-serif',
+        fontSize: '11px',
+        fontStyle: 'bold',
+        color: '#f0e1b8',
+        backgroundColor: '#6b4a28cc',
+        padding: { x: 6, y: 2 },
+      })
+      .setOrigin(0.5)
+      .setDepth(29)
+      .setVisible(false);
+
     const nameLabel = this.scene.add
-      .text(factory.centerX, factory.centerY - 28, factory.displayName, {
+      .text(factory.centerX, factory.centerY - 42, factory.displayName, {
         fontFamily: '"PingFang SC", "Microsoft YaHei", sans-serif',
         fontSize: '14px',
         fontStyle: 'bold',
-        color: '#f8fafc',
-        stroke: '#1e293b',
+        color: '#e5c97b',
+        stroke: '#1a1410',
         strokeThickness: 3,
       })
       .setOrigin(0.5)
       .setDepth(27)
       .setVisible(false);
 
-    return { factory, highlight, badge, pendingLabel, nameLabel };
+    const statusTag = this.scene.add
+      .text(factory.centerX, factory.centerY - 24, '', {
+        fontFamily: '"PingFang SC", "Microsoft YaHei", sans-serif',
+        fontSize: '11px',
+        fontStyle: 'bold',
+        color: '#d8cfb5',
+        backgroundColor: '#2a2418dd',
+        padding: { x: 6, y: 2 },
+      })
+      .setOrigin(0.5)
+      .setDepth(28)
+      .setVisible(false);
+
+    return { factory, highlight, badge, pendingLabel, recommendTag, nameLabel, statusTag };
   }
 
   private resolveMode(id: string): VisualMode {
@@ -144,7 +227,7 @@ export class FactoryZoneManager {
     if (deepDone === id) return 'deep_done';
 
     if (stageId === 'deep_opt' && !deepDone) {
-      if (!initialDone.includes(id)) return 'retrofit_pending';
+      if (!initialDone.includes(id)) return 'idle';
       return isHover ? 'deep_hover' : 'deep_available';
     }
 
@@ -154,7 +237,27 @@ export class FactoryZoneManager {
       return isHover ? 'retrofit_hover' : 'retrofit_pending';
     }
 
-    return 'retrofit_pending';
+    return 'idle';
+  }
+
+  private getStatusTag(mode: VisualMode, factory: RetrofitFactory): string {
+    switch (mode) {
+      case 'diagnosis':
+      case 'diagnosis_hover':
+        return '点击了解排放情况';
+      case 'retrofit_pending':
+      case 'retrofit_hover':
+        return '点击选择初改方案';
+      case 'deep_available':
+      case 'deep_hover':
+        return '点击进行深度优化';
+      default:
+        return `${factory.emission} tCO₂e`;
+    }
+  }
+
+  private isActionable(mode: VisualMode): boolean {
+    return ACTIONABLE_MODES.includes(mode);
   }
 
   private redrawAll() {
@@ -166,24 +269,47 @@ export class FactoryZoneManager {
   private drawZone(id: string, mode: VisualMode) {
     const visual = this.visuals.get(id);
     if (!visual) return;
-    const { factory, highlight, badge, pendingLabel, nameLabel } = visual;
+    const { factory, highlight, badge, pendingLabel, recommendTag, nameLabel, statusTag } = visual;
     highlight.clear();
 
+    const isRecommended = id === this.getRecommendedId();
+    const actionable = this.isActionable(mode);
+    const breathBoost =
+      actionable && !mode.includes('hover') ? this.breathPhase * 0.32 : 0;
+    const recommendBoost = isRecommended && actionable ? this.breathPhase * 0.14 : 0;
+    const totalBreath = breathBoost + recommendBoost;
+
     const palette = {
-      diagnosis: { stroke: 0x94a3b8, fill: 0.1, line: 1 },
-      diagnosis_hover: { stroke: 0xcbd5e1, fill: 0.14, line: 2 },
-      retrofit_pending: { stroke: 0x000000, fill: 0, line: 0 },
-      retrofit_hover: { stroke: 0xfbbf24, fill: 0.18, line: 2 },
-      initial_done: { stroke: 0x22c55e, fill: 0.14, line: 2 },
-      deep_available: { stroke: 0x38bdf8, fill: 0.12, line: 2 },
-      deep_hover: { stroke: 0x7dd3fc, fill: 0.2, line: 3 },
-      deep_done: { stroke: 0x15803d, fill: 0.18, line: 3 },
+      diagnosis: {
+        stroke: 0xb99a5a,
+        fill: 0.05 + totalBreath,
+        line: 1.6 + totalBreath * 2.8,
+        alpha: 0.78 + totalBreath,
+      },
+      diagnosis_hover: { stroke: 0xe5c97b, fill: 0.1, line: 3, alpha: 1 },
+      retrofit_pending: {
+        stroke: isRecommended ? 0xe5c97b : 0xb88945,
+        fill: 0.05 + totalBreath,
+        line: (isRecommended ? 2 : 1.6) + totalBreath * 2.8,
+        alpha: 0.8 + totalBreath,
+      },
+      retrofit_hover: { stroke: 0xe5c97b, fill: 0.1, line: 3, alpha: 1 },
+      initial_done: { stroke: 0x6b8a72, fill: 0.06, line: 2, alpha: 0.82 },
+      deep_available: {
+        stroke: isRecommended ? 0xe5c97b : 0x8fbf8e,
+        fill: 0.05 + totalBreath,
+        line: (isRecommended ? 2 : 1.6) + totalBreath * 2.8,
+        alpha: 0.8 + totalBreath,
+      },
+      deep_hover: { stroke: 0xe5c97b, fill: 0.1, line: 3, alpha: 1 },
+      deep_done: { stroke: 0x5a7a62, fill: 0.06, line: 2, alpha: 0.82 },
+      idle: { stroke: 0x000000, fill: 0, line: 0, alpha: 0 },
     }[mode];
 
     if (factory.hitArea.kind === 'polygon') {
       const pts = factory.hitArea.polygon.points;
       highlight.fillStyle(palette.stroke, palette.fill);
-      highlight.lineStyle(palette.line, palette.stroke, palette.line > 0 ? 0.92 : 0);
+      highlight.lineStyle(palette.line, palette.stroke, palette.line > 0 ? palette.alpha : 0);
       highlight.beginPath();
       highlight.moveTo(pts[0].x, pts[0].y);
       for (let i = 1; i < pts.length; i++) highlight.lineTo(pts[i].x, pts[i].y);
@@ -193,67 +319,70 @@ export class FactoryZoneManager {
     } else {
       const r = factory.hitArea.rect;
       highlight.fillStyle(palette.stroke, palette.fill);
-      highlight.lineStyle(palette.line, palette.stroke, palette.line > 0 ? 0.92 : 0);
+      highlight.lineStyle(palette.line, palette.stroke, palette.line > 0 ? palette.alpha : 0);
       if (palette.fill > 0) highlight.fillRect(r.x, r.y, r.width, r.height);
       if (palette.line > 0) highlight.strokeRect(r.x, r.y, r.width, r.height);
     }
 
     badge.setVisible(false);
     pendingLabel.setVisible(false);
+    recommendTag.setVisible(false);
     nameLabel.setVisible(false);
+    statusTag.setVisible(false);
+
+    const showHoverInfo = mode.includes('hover');
+    const showRecommend = isRecommended && actionable && !showHoverInfo;
 
     switch (mode) {
       case 'diagnosis':
-        pendingLabel.setText('?');
-        pendingLabel.setColor('#e2e8f0');
-        pendingLabel.setBackgroundColor('#475569cc');
+        pendingLabel.setText('待诊断');
         pendingLabel.setVisible(true);
-        pendingLabel.setAlpha(0.85);
+        pendingLabel.setAlpha(0.92);
+        if (showRecommend) recommendTag.setVisible(true);
         break;
       case 'diagnosis_hover':
-        pendingLabel.setText('?');
-        pendingLabel.setColor('#f8fafc');
-        pendingLabel.setBackgroundColor('#64748bcc');
-        pendingLabel.setVisible(true);
         nameLabel.setVisible(true);
+        statusTag.setText(this.getStatusTag(mode, factory));
+        statusTag.setVisible(true);
         break;
       case 'retrofit_pending':
         pendingLabel.setText('待改造');
-        pendingLabel.setColor('#fef3c7');
-        pendingLabel.setBackgroundColor('#78350fcc');
         pendingLabel.setVisible(true);
-        pendingLabel.setAlpha(0.78);
+        pendingLabel.setAlpha(0.92);
+        if (showRecommend) recommendTag.setVisible(true);
         break;
       case 'retrofit_hover':
-        pendingLabel.setText('待改造');
-        pendingLabel.setColor('#fef3c7');
-        pendingLabel.setBackgroundColor('#78350fcc');
-        pendingLabel.setVisible(true);
         nameLabel.setVisible(true);
+        statusTag.setText(this.getStatusTag(mode, factory));
+        statusTag.setVisible(true);
         break;
       case 'initial_done':
         badge.setText('已初改');
-        badge.setBackgroundColor('#166534cc');
         badge.setVisible(true);
+        if (showHoverInfo) {
+          nameLabel.setVisible(true);
+          statusTag.setText('初改完成');
+          statusTag.setVisible(true);
+        }
         break;
       case 'deep_available':
         pendingLabel.setText('可深改');
-        pendingLabel.setColor('#e0f2fe');
-        pendingLabel.setBackgroundColor('#0369a1cc');
+        pendingLabel.setColor('#dde8d1');
+        pendingLabel.setBackgroundColor('#3e5a42cc');
         pendingLabel.setVisible(true);
-        pendingLabel.setAlpha(0.9);
+        pendingLabel.setAlpha(0.94);
+        if (showRecommend) recommendTag.setVisible(true);
         break;
       case 'deep_hover':
-        pendingLabel.setText('可深改');
-        pendingLabel.setColor('#e0f2fe');
-        pendingLabel.setBackgroundColor('#0369a1cc');
-        pendingLabel.setVisible(true);
         nameLabel.setVisible(true);
+        statusTag.setText(this.getStatusTag(mode, factory));
+        statusTag.setVisible(true);
         break;
       case 'deep_done':
         badge.setText('已深改');
-        badge.setBackgroundColor('#14532dcc');
         badge.setVisible(true);
+        break;
+      case 'idle':
         break;
     }
   }

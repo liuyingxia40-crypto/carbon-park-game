@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import { FactoryZoneManager, type MapVisualConfig } from '../game/park/FactoryZoneManager';
 import { CarbonButlerUI } from '../game/park/CarbonButlerUI';
+import { ParkAmbientMotion } from '../game/park/ParkAmbientMotion';
 import {
   CARBON_BUTLER_KEY,
   CARBON_BUTLER_URL,
@@ -28,6 +29,7 @@ type ImageLayerData = {
 export class IndustrialParkScene extends Phaser.Scene {
   private zoneManager!: FactoryZoneManager;
   private butlerUI?: CarbonButlerUI;
+  private ambient?: ParkAmbientMotion;
   private mapWidth = 0;
   private mapHeight = 0;
 
@@ -79,16 +81,22 @@ export class IndustrialParkScene extends Phaser.Scene {
     this.setupInput();
     this.syncState();
     this.setupButlerUI();
+    this.ambient = new ParkAmbientMotion(this);
 
     parkBridge.attachScene({
       syncMapVisuals: (config) => this.syncMapVisuals(config),
       resetFactories: () => this.resetFactories(),
       selectFactoryById: (id) => this.selectFactoryById(id),
       resetButler: () => this.butlerUI?.reset(),
+      showButlerNotice: (text) => this.butlerUI?.showNotice(text),
+      hideButler: () => this.butlerUI?.hide(),
     });
   }
 
   shutdown() {
+    this.ambient?.destroy();
+    this.ambient = undefined;
+    this.zoneManager?.destroy();
     this.butlerUI?.destroy();
     this.butlerUI = undefined;
     parkBridge.detachScene();

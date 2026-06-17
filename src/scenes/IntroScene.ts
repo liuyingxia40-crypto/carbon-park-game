@@ -170,10 +170,19 @@ export class IntroScene extends Phaser.Scene {
   }
 
   private playOpeningSequence() {
-    this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_IN_COMPLETE, () => {
-      this.showEnvelope();
+    const cam = this.cameras.main;
+    const onFadeInDone = () => this.showEnvelope();
+
+    cam.once(Phaser.Cameras.Scene2D.Events.FADE_IN_COMPLETE, onFadeInDone);
+    cam.fadeIn(1500, 0, 0, 0);
+
+    // fadeIn 被跳过/打断时仍展示信封，避免卡在黑屏
+    this.time.delayedCall(1600, () => {
+      if (this.phase === 'fade') {
+        cam.off(Phaser.Cameras.Scene2D.Events.FADE_IN_COMPLETE, onFadeInDone);
+        this.showEnvelope();
+      }
     });
-    this.cameras.main.fadeIn(1500, 0, 0, 0);
 
     this.tweens.add({
       targets: this.skipBtn,
@@ -184,6 +193,7 @@ export class IntroScene extends Phaser.Scene {
   }
 
   private showEnvelope() {
+    if (this.phase !== 'fade') return;
     this.phase = 'envelope';
     this.layoutAll();
 
@@ -402,12 +412,41 @@ export class IntroScene extends Phaser.Scene {
   private completeIntro() {
     if (this.finished) return;
     this.finished = true;
-    this.tweens.killAll();
+    this.cleanupIntroAnimations();
 
-    this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, () => {
-      this.game.events.emit(INTRO_COMPLETE_EVENT);
-    });
-    this.cameras.main.fadeOut(400, 0, 0, 0);
+    const cam = this.cameras.main;
+    const finishWithFade = this.phase === 'done';
+
+    if (!finishWithFade) {
+      cam.clearFX();
+      this.emitIntroComplete();
+      return;
+    }
+
+    let emitted = false;
+    const emitOnce = () => {
+      if (emitted) return;
+      emitted = true;
+      this.emitIntroComplete();
+    };
+
+    cam.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, emitOnce);
+    cam.fadeOut(400, 0, 0, 0);
+    this.time.delayedCall(500, emitOnce);
+  }
+
+  private cleanupIntroAnimations() {
+    if (this.donePointerHandler) {
+      this.input.off('pointerdown', this.donePointerHandler);
+      this.donePointerHandler = undefined;
+    }
+    this.ringBreatheTween?.stop();
+    this.tweens.killAll();
+    this.time.removeAllEvents();
+  }
+
+  private emitIntroComplete() {
+    this.game.events.emit(INTRO_COMPLETE_EVENT);
   }
 
   private layoutAll() {

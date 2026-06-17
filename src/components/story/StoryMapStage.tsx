@@ -1,45 +1,43 @@
-import { type ReactNode, useEffect, useRef } from 'react';
-import { PhaserGame } from '../PhaserGame';
-import { computeContainLayout } from '../../game/park/mapStageLayout';
+import { type ReactNode } from 'react';
+import { RetrofitMapView } from './RetrofitMapView';
+import type { FactoryId, StageId } from '../../game/story/phase1Script';
+import './RetrofitMapView.css';
 import './StoryMapStage.css';
 
-/** 地图主舞台：Phaser 交互地图 + 事件层 overlay */
+type Props = {
+  children?: ReactNode;
+  mapKey?: number;
+  stageId: StageId;
+  initialRetrofitDone: FactoryId[];
+  deepOptimizedFactory: FactoryId | null;
+  selectedFactory: FactoryId | null;
+  constructingFactory: FactoryId | null;
+  onFactorySelect: (factoryId: FactoryId | null) => void;
+};
+
+/** 全屏地图层 + 工厂 overlay（气泡/标签在 RetrofitMapView 内） */
 export function StoryMapStage({
   children,
   mapKey = 0,
-}: {
-  children?: ReactNode;
-  mapKey?: number;
-}) {
-  const stageRef = useRef<HTMLDivElement>(null);
-  const hostRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const stage = stageRef.current;
-    const host = hostRef.current;
-    if (!stage || !host) return;
-
-    const apply = () => {
-      const { displayWidth, displayHeight } = computeContainLayout(
-        stage.clientWidth,
-        stage.clientHeight,
-      );
-      host.style.width = `${displayWidth}px`;
-      host.style.height = `${displayHeight}px`;
-    };
-
-    const ro = new ResizeObserver(apply);
-    ro.observe(stage);
-    apply();
-    return () => ro.disconnect();
-  }, []);
-
+  stageId,
+  initialRetrofitDone,
+  deepOptimizedFactory,
+  selectedFactory,
+  constructingFactory,
+  onFactorySelect,
+}: Props) {
   return (
-    <div className="game-stage" ref={stageRef}>
-      <div className="game-stage__map-host" ref={hostRef}>
-        <PhaserGame bootKey={mapKey} />
-      </div>
-      {children && <div className="game-stage__event-layer">{children}</div>}
+    <div className="map-layer">
+      <RetrofitMapView
+        mapKey={mapKey}
+        stageId={stageId}
+        initialRetrofitDone={initialRetrofitDone}
+        deepOptimizedFactory={deepOptimizedFactory}
+        selectedFactory={selectedFactory}
+        constructingFactory={constructingFactory}
+        onFactorySelect={onFactorySelect}
+      />
+      {children ? <div className="map-layer__event-layer">{children}</div> : null}
     </div>
   );
 }

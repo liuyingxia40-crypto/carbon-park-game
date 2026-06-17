@@ -2,8 +2,8 @@ import Phaser from 'phaser';
 import { PARK_MAP_HEIGHT, PARK_MAP_WIDTH } from './park/paths';
 import { IndustrialParkScene } from '../scenes/IndustrialParkScene';
 
-/** 森林色兜底，与地图边缘接近；ENVELOP = cover 铺满，不变形 */
-const STAGE_BG = 0x3d6b48;
+/** 与地图 letterbox 区域一致的底色；FIT = contain，完整显示地图不裁切 */
+const STAGE_BG = 0x121810;
 
 export function createPhaserGame(parent: HTMLElement): Phaser.Game {
   return new Phaser.Game({
@@ -14,7 +14,7 @@ export function createPhaserGame(parent: HTMLElement): Phaser.Game {
     backgroundColor: STAGE_BG,
     transparent: false,
     scale: {
-      mode: Phaser.Scale.ENVELOP,
+      mode: Phaser.Scale.FIT,
       autoCenter: Phaser.Scale.CENTER_BOTH,
     },
     scene: [IndustrialParkScene],

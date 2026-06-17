@@ -1,15 +1,16 @@
-@import './EventOverlay.css';
+@import './SchemeCards.css';
 
 .factory-panel {
   position: absolute;
   inset: 0;
+  z-index: 30;
   display: grid;
   grid-template-rows:
-    minmax(5vh, 0.7fr)
+    minmax(4vh, 0.55fr)
     auto
-    minmax(3vh, 0.45fr)
+    minmax(2vh, 0.35fr)
     auto
-    minmax(8vh, 0.85fr);
+    minmax(6vh, 0.65fr);
   grid-template-areas:
     '.'
     'title'
@@ -18,12 +19,24 @@
     '.';
   justify-items: center;
   align-items: center;
-  padding: 0 clamp(10px, 2.5vw, 22px);
+  padding: 0 clamp(12px, 2.5vw, 24px);
   overflow: hidden;
+  pointer-events: auto;
+  font-family: var(--ui-font, 'Microsoft YaHei UI', sans-serif);
+}
+
+.factory-panel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.25);
   pointer-events: none;
+  z-index: 0;
 }
 
 .factory-panel > * {
+  position: relative;
+  z-index: 1;
   pointer-events: auto;
 }
 
@@ -31,52 +44,50 @@
   grid-area: title;
   align-self: end;
   position: relative;
-  width: min(400px, 62vw);
-  padding: clamp(10px, 1.6vh, 14px) clamp(16px, 2.8vw, 20px);
-  text-align: center;
-  background: rgba(250, 246, 236, 0.96);
-  border: 2.5px solid #2d4a38;
-  border-radius: 12px;
-  box-shadow:
-    0 3px 0 #2d4a38,
-    0 6px 16px rgba(30, 50, 38, 0.18);
+  width: min(680px, 92vw);
+  padding: 12px 40px 12px 16px;
+  text-align: left;
+  background: rgba(22, 28, 22, 0.92);
+  border: 2px solid #a28754;
+  border-radius: 8px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
 }
 
 .factory-panel__close {
   position: absolute;
-  top: 6px;
+  top: 8px;
   right: 8px;
   width: 28px;
   height: 28px;
-  border: none;
+  border: 1px solid rgba(185, 154, 90, 0.5);
   border-radius: 6px;
-  background: rgba(45, 74, 56, 0.12);
-  color: #2d4a38;
-  font-size: 1.2rem;
+  background: rgba(62, 90, 66, 0.55);
+  color: #f0e1b8;
+  font-size: 1.1rem;
   line-height: 1;
   cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.factory-panel__close:hover {
+  background: #4a6a4e;
+  border-color: #c4a86a;
 }
 
 .factory-panel__title {
   margin: 0;
-  font-size: clamp(0.82rem, 2.3vw, 1rem);
-  font-weight: 900;
-  color: #1a1a1a;
+  font-size: 17px;
+  font-weight: 800;
+  color: #e5c97b;
+  letter-spacing: 0.03em;
 }
 
-.factory-panel__problem {
-  margin: clamp(5px, 0.9vh, 8px) 0 0;
-  font-size: clamp(0.58rem, 1.55vw, 0.7rem);
+.factory-panel__subtitle {
+  margin: 6px 0 0;
+  font-size: 14px;
   font-weight: 600;
   line-height: 1.45;
-  color: #2a2a2a;
-}
-
-.factory-panel__emission {
-  margin: clamp(4px, 0.7vh, 6px) 0 0;
-  font-size: clamp(0.54rem, 1.4vw, 0.66rem);
-  font-weight: 700;
-  color: #5c4030;
+  color: #d8cfb5;
 }
 
 .factory-panel__cards-wrap,
@@ -92,54 +103,60 @@
   display: flex;
   align-items: stretch;
   justify-content: center;
-  gap: clamp(10px, 2.2vw, 16px);
+  gap: clamp(14px, 2.4vw, 22px);
   width: 100%;
-  max-width: min(920px, 96vw);
+  max-width: min(760px, 96vw);
+  overflow: hidden;
 }
 
 .factory-panel__cards-wrap--single .factory-panel__cards {
-  max-width: min(320px, 88vw);
+  max-width: min(220px, 88vw);
 }
 
 .factory-panel__result {
-  width: min(360px, 72vw);
-  padding: clamp(12px, 2vh, 16px) clamp(14px, 2.5vw, 18px);
+  width: min(380px, 88vw);
+  padding: 16px 18px;
   text-align: center;
-  background: rgba(236, 252, 243, 0.95);
-  border: 2.5px solid #166534;
-  border-radius: 12px;
-  box-shadow: 0 4px 14px rgba(22, 101, 52, 0.15);
+  background: rgba(28, 34, 27, 0.94);
+  border: 2px solid #a28754;
+  border-radius: 10px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
 }
 
 .factory-panel__result-label {
   margin: 0;
-  font-size: 0.62rem;
+  font-size: 12px;
   font-weight: 700;
-  color: #166534;
+  color: #8fbf8e;
   letter-spacing: 0.06em;
 }
 
 .factory-panel__result-name {
-  margin: 6px 0 0;
-  font-size: clamp(0.78rem, 2vw, 0.92rem);
-  font-weight: 900;
-  color: #14532d;
+  margin: 8px 0 0;
+  font-size: 17px;
+  font-weight: 800;
+  color: #e5c97b;
 }
 
 .factory-panel__result-stats {
   display: flex;
   justify-content: center;
-  gap: 12px;
+  gap: 14px;
   flex-wrap: wrap;
-  margin-top: 8px;
-  font-size: 0.62rem;
+  margin-top: 10px;
+  font-size: 13px;
   font-weight: 700;
-  color: #1e3a2a;
+  color: #d8cfb5;
+}
+
+.factory-panel__result-stats span {
+  color: #eed9a0;
 }
 
 .factory-panel__result-note {
-  margin: 10px 0 0;
-  font-size: 0.58rem;
+  margin: 12px 0 0;
+  font-size: 13px;
   font-weight: 600;
-  color: #3f6212;
+  line-height: 1.45;
+  color: #d8cfb5;
 }

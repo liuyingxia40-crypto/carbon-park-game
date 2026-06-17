@@ -264,9 +264,56 @@
          "visible":true,
          "x":0,
          "y":0
+        },
+        {
+         "draworder":"topdown",
+         "id":7,
+         "name":"factory_spawn_points",
+         "objects":[
+                {
+                 "height":0,
+                 "id":10,
+                 "name":"plot_1_spawn",
+                 "point":true,
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":714.667,
+                 "y":385.333
+                },
+                {
+                 "height":0,
+                 "id":11,
+                 "name":"plot_2_spawn",
+                 "point":true,
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":701.333,
+                 "y":310.667
+                },
+                {
+                 "height":0,
+                 "id":12,
+                 "name":"plot_3_spawn",
+                 "point":true,
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":300,
+                 "y":700
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
         }],
- "nextlayerid":7,
- "nextobjectid":4,
+ "nextlayerid":8,
+ "nextobjectid":13,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.12.1",

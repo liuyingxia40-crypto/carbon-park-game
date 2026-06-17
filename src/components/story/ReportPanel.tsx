@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { formatWanYuan } from '../../game/story/compliance';
 import {
   INITIAL_EMISSION,
   TARGET_EMISSION,
@@ -75,7 +76,7 @@ export function ReportPanel({ state, onRestart }: Props) {
         </section>
 
         <section className="report-secondary-stats">
-          <span>剩余资金 ¥{state.funds.toLocaleString()}</span>
+          <span>剩余资金 {formatWanYuan(state.funds)}</span>
           <span>生产收益 {state.revenue}</span>
           <span>已改造工厂 {state.initialRetrofitDone.length}/3</span>
         </section>
@@ -138,7 +139,7 @@ export function ReportPanel({ state, onRestart }: Props) {
                       {c.factoryName ? ` · ${c.factoryName}` : ''} — {c.optionName}
                     </span>
                     <span className="report-decisions__meta">
-                      成本 {c.cost.toLocaleString()} · 减排 -{c.reduction} · 收益{' '}
+                      成本 {formatWanYuan(c.cost)} · 减排 -{c.reduction} · 收益{' '}
                       {c.revenueChange >= 0 ? '+' : ''}
                       {c.revenueChange}
                     </span>

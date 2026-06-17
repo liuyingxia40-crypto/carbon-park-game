@@ -1,0 +1,137 @@
+.retrofit-map__loading,
+.retrofit-map__error {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  font-size: clamp(14px, 2.5vw, 18px);
+  font-weight: 700;
+  color: #4a7a9a;
+  text-align: center;
+}
+
+.retrofit-map__error {
+  color: #ffb0a0;
+}
+
+/* 全屏地图层：contain 完整显示，浅蓝边距由外层露出 */
+.map-wrapper {
+  position: absolute;
+  inset: clamp(10px, 2vh, 22px) clamp(8px, 1.5vw, 16px);
+  width: auto;
+  height: auto;
+  overflow: hidden;
+  line-height: 0;
+}
+
+.map-wrapper__image {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center center;
+  user-select: none;
+  -webkit-user-drag: none;
+  pointer-events: none;
+}
+
+.map-wrapper__object-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.map-wrapper__debug-bounds {
+  box-sizing: border-box;
+  border: 2px solid rgba(255, 0, 0, 0.85);
+  background: rgba(255, 0, 0, 0.12);
+  pointer-events: none;
+  z-index: 10;
+}
+
+.map-wrapper__bubble-anchor {
+  position: absolute;
+  z-index: 12;
+  pointer-events: none;
+}
+
+.map-wrapper__factory-slot {
+  pointer-events: none;
+}
+
+.map-wrapper__factory-sprite {
+  object-fit: fill;
+  max-width: none;
+  max-height: none;
+  user-select: none;
+  -webkit-user-drag: none;
+  pointer-events: none;
+}
+
+.map-wrapper__factory--actionable .map-wrapper__factory-sprite,
+.map-wrapper__factory--hover .map-wrapper__factory-sprite,
+.map-wrapper__factory--selected .map-wrapper__factory-sprite {
+  filter: drop-shadow(0 4px 12px rgba(74, 170, 239, 0.45));
+}
+
+.map-wrapper__factory--hover .map-wrapper__factory-sprite {
+  filter: drop-shadow(0 6px 16px rgba(74, 170, 239, 0.65)) brightness(1.05);
+}
+
+.map-wrapper__factory--constructing .map-wrapper__factory-sprite {
+  animation: retrofit-factory-pulse 0.9s ease-in-out infinite;
+}
+
+.map-wrapper__construction {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  background: rgba(255, 255, 255, 0.35);
+  border: 2px dashed rgba(74, 170, 239, 0.75);
+  border-radius: 12px;
+  animation: retrofit-scaffold-blink 1.1s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.map-wrapper__construction-label {
+  padding: clamp(4px, 1vh, 8px) clamp(10px, 2vw, 14px);
+  font-size: clamp(12px, 2vw, 15px);
+  font-weight: 900;
+  color: #2a7ec8;
+  background: rgba(255, 255, 255, 0.92);
+  border: 2px solid rgba(120, 190, 230, 0.6);
+  border-radius: 999px;
+  box-shadow: 0 2px 8px rgba(74, 140, 200, 0.2);
+}
+
+.map-wrapper--actionable {
+  cursor: pointer;
+}
+
+@keyframes retrofit-factory-pulse {
+  0%,
+  100% {
+    filter: brightness(1) drop-shadow(0 4px 10px rgba(74, 170, 239, 0.35));
+  }
+  50% {
+    filter: brightness(1.1) drop-shadow(0 6px 16px rgba(74, 170, 239, 0.6));
+  }
+}
+
+@keyframes retrofit-scaffold-blink {
+  0%,
+  100% {
+    opacity: 0.88;
+  }
+  50% {
+    opacity: 1;
+  }
+}

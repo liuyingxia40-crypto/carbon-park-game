@@ -10,7 +10,7 @@ export type MapContainLayout = {
   offsetY: number;
 };
 
-/** contain 居中：主地图层实际显示尺寸与偏移 */
+/** contain 居中：完整显示地图，不裁切 */
 export function computeContainLayout(
   stageWidth: number,
   stageHeight: number,

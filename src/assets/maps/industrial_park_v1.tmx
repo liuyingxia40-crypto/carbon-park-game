@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="45" height="34" tilewidth="32" tileheight="32" infinite="0" nextlayerid="7" nextobjectid="4">
- <tileset firstgid="1" name="industrial_park_v1_true" tilewidth="32" tileheight="32" tilecount="1485" columns="45">
-  <image source="../../../public/assets/maps/industrial_park_v1_true.png" trans="000000" width="1447" height="1087"/>
+<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="45" height="33" tilewidth="32" tileheight="32" infinite="0" nextlayerid="7" nextobjectid="9">
+ <tileset firstgid="1" name="factory_sprites" tilewidth="1254" tileheight="1254" tilecount="3" columns="0">
+  <grid orientation="orthogonal" width="1" height="1"/>
+  <tile id="0">
+   <image source="../../../public/assets/sprites/green_factory_basic.png" width="1254" height="1254"/>
+  </tile>
+  <tile id="1">
+   <image source="../../../public/assets/sprites/coal_factory_base.png" width="1254" height="1254"/>
+  </tile>
+  <tile id="2">
+   <image source="../../../public/assets/sprites/chemical_factory_base.png" width="1254" height="950"/>
+  </tile>
  </tileset>
- <layer id="1" name="图块层 1" width="45" height="34">
+ <layer id="1" name="图块层 1" width="45" height="33">
   <data encoding="csv">
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -41,39 +49,38 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <imagelayer id="2" name="Background" offsetx="-1.33333" offsety="2.66667">
-  <image source="../../../public/assets/maps/industrial_park_v1_true.png" width="1447" height="1087"/>
+ <imagelayer id="2" name="图像图层 1">
+  <image source="../../../public/assets/tiles/industrial_park_v1.png" width="1448" height="1086"/>
  </imagelayer>
- <objectgroup id="6" name="objects">
-  <object id="1" name="factory_coal" type="retrofit_factory" x="714.667" y="385.333">
+ <objectgroup id="3" name="buildable_plots">
+  <object id="1" name="plot_1" type="buildable" x="153.333" y="576.667">
    <properties>
-    <property name="displayName" value="燃煤工厂"/>
-    <property name="emission" type="int" value="160"/>
-    <property name="factoryType" value="coal"/>
-    <property name="reduction" type="int" value="90"/>
-    <property name="status" value="old"/>
+    <property name="factory" value="none"/>
+    <property name="plotld" type="int" value="1"/>
+    <property name="status" value="empty"/>
    </properties>
-   <polygon points="0,0 -424,248 -717.333,26.6667 -712,-49.3333 -580,-128 -174.667,-340 -113.333,-312 -73.3333,-341.333 112,-234.667 -146.667,-108"/>
+   <polygon points="0,0 234,-122 451.333,26.6667 228,156"/>
   </object>
-  <object id="2" name="factory_chemical" type="retrofit_factory" x="701.333" y="310.667">
+  <object id="2" name="plot_2" type="buildable" x="576.667" y="353.333">
    <properties>
-    <property name="displayName" value="化工厂"/>
-    <property name="emission" type="int" value="120"/>
-    <property name="factoryType" value="chemical"/>
-    <property name="reduction " type="int" value="70"/>
-    <property name="status" value="old"/>
+    <property name="factory" value="none"/>
+    <property name="plotId" type="int" value="2"/>
+    <property name="status" value="empty"/>
    </properties>
-   <polygon points="0,0 452,288 736,108 737.333,70.6667 304,-189.333"/>
+   <polygon points="0,0 231.333,-116 448,16 446,15.3333 450,20.6667 226.667,147.333"/>
   </object>
-  <object id="3" name="factory_heavy" type="retrofit_factory" x="300" y="700">
+  <object id="3" name="plot_3" type="buildable" x="902.667" y="640.667">
    <properties>
-    <property name="displayName" value="重型制造厂"/>
-    <property name="emission" type="int" value="180"/>
-    <property name="factoryType" value="heavy"/>
-    <property name="reduction" type="int" value="120"/>
-    <property name="status" value="old"/>
+    <property name="factory" value="none"/>
+    <property name="plotId" type="int" value="3"/>
+    <property name="status" value="empty"/>
    </properties>
-   <polygon points="0,0 469.333,-286.667 925.333,20 492,317.333"/>
+   <polygon points="0,0 217.333,-122.667 423.333,9.33333 200,143.333"/>
   </object>
+ </objectgroup>
+ <objectgroup id="6" name="factory_objects">
+  <object id="6" gid="2147483649" x="182.664" y="742.132" width="412.177" height="354.82" rotation="-2"/>
+  <object id="7" gid="2" x="577.567" y="518.406" width="437.935" height="430.489" rotation="362.612"/>
+  <object id="8" gid="3" x="929.755" y="742.717" width="360.844" height="328.969" rotation="2"/>
  </objectgroup>
 </map>

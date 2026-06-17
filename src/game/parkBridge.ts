@@ -28,6 +28,8 @@ type ParkSceneApi = {
   resetFactories: () => void;
   selectFactoryById: (id: string) => void;
   resetButler: () => void;
+  showButlerNotice: (text: string) => void;
+  hideButler: () => void;
 };
 
 type ParkSubscriber = {
@@ -158,6 +160,14 @@ class ParkBridge {
       goalReached,
     };
     for (const sub of this.subscribers) sub.onState?.(this.state);
+  }
+
+  showButlerNotice(text: string) {
+    this.scene?.showButlerNotice(text);
+  }
+
+  hideButler() {
+    this.scene?.hideButler();
   }
 }
 

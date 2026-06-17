@@ -1,3 +1,4 @@
+import { formatWanYuan } from '../../game/story/compliance';
 import type { DecisionOption, RiskLevel } from '../../game/story/phase1Script';
 import { canAfford } from '../../game/story/gameState';
 import './DecisionPanel.css';
@@ -75,7 +76,7 @@ function OptionCard({
       </div>
       <p className="option-card__desc">{option.description}</p>
       <div className="option-card__stats">
-        <span>成本 ¥{option.cost.toLocaleString()}</span>
+        <span>成本 {formatWanYuan(option.cost)}</span>
         <span className="option-card__cut">减排 −{option.reduction}</span>
         <span className={option.revenueChange >= 0 ? 'option-card__up' : 'option-card__down'}>
           收益 {option.revenueChange >= 0 ? '+' : ''}

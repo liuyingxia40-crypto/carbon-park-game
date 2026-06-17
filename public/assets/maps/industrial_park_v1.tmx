@@ -76,4 +76,15 @@
    <polygon points="0,0 469.333,-286.667 925.333,20 492,317.333"/>
   </object>
  </objectgroup>
+ <objectgroup id="7" name="factory_spawn_points">
+  <object id="10" name="plot_1_spawn" x="714.667" y="385.333">
+   <point/>
+  </object>
+  <object id="11" name="plot_2_spawn" x="701.333" y="310.667">
+   <point/>
+  </object>
+  <object id="12" name="plot_3_spawn" x="300" y="700">
+   <point/>
+  </object>
+ </objectgroup>
 </map>

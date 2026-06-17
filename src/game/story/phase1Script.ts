@@ -1,3 +1,5 @@
+import { getFactoryCopy } from '../park/factoryCopy';
+
 export const INITIAL_FUNDS = 420_000;
 export const INITIAL_EMISSION = 460;
 export const TARGET_EMISSION = 200;
@@ -41,6 +43,7 @@ export type FactoryDef = {
   id: FactoryId;
   title: string;
   emission: number;
+  riskLevel: RiskLevel;
   problem: string;
   options: DecisionOption[];
 };
@@ -193,40 +196,41 @@ export const FACTORIES: FactoryDef[] = [
     id: 'factory_coal',
     title: '燃煤工厂',
     emission: 160,
+    riskLevel: '高',
     problem: '设备老旧，能效偏低，是园区主要排放来源。',
     options: [
       {
         id: 'coal_a',
-        name: '基础节能改造',
+        name: '基础低碳改造',
         cost: 60_000,
         reduction: 50,
         revenueChange: 10,
         risk: '低',
         tag: '稳健型',
         tagTone: 'long',
-        description: '投入较低，减排稳定。',
+        description: '适合初步降低排放，投入较低。',
       },
       {
         id: 'coal_b',
-        name: '接入绿电与节能设备',
+        name: '深度优化改造',
         cost: 120_000,
         reduction: 90,
         revenueChange: 5,
         risk: '中',
         tag: '平衡型',
         tagTone: 'balance',
-        description: '减排显著，但投入更高。',
+        description: '减排效果更强，但资金压力更大。',
       },
       {
         id: 'coal_c',
-        name: '购买短期碳配额',
-        cost: 45_000,
-        reduction: 40,
+        name: '暂缓改造',
+        cost: 0,
+        reduction: 0,
         revenueChange: 0,
-        risk: '中高',
-        tag: '短期型',
-        tagTone: 'short',
-        description: '短期缓压，但不改善结构。',
+        risk: '高',
+        tag: '高风险',
+        tagTone: 'risk',
+        description: '暂时不投入资金，但后续履约风险升高。',
       },
     ],
   },
@@ -234,81 +238,83 @@ export const FACTORIES: FactoryDef[] = [
     id: 'factory_chemical',
     title: '化工厂',
     emission: 120,
+    riskLevel: '中',
     problem: '废气处理不足，资源浪费明显，存在过程排放压力。',
     options: [
       {
         id: 'chem_a',
-        name: '废气处理系统',
+        name: '基础低碳改造',
         cost: 70_000,
         reduction: 45,
         revenueChange: 5,
         risk: '低',
         tag: '稳健型',
         tagTone: 'long',
-        description: '治理稳定，投入适中。',
+        description: '适合初步降低排放，投入较低。',
       },
       {
         id: 'chem_b',
-        name: '废气处理与资源回收系统',
+        name: '深度优化改造',
         cost: 110_000,
         reduction: 70,
         revenueChange: 15,
         risk: '中',
         tag: '平衡型',
         tagTone: 'balance',
-        description: '降低排放，同时提升资源利用。',
+        description: '减排效果更强，但资金压力更大。',
       },
       {
         id: 'chem_c',
-        name: '暂缓治理，维持产能',
+        name: '暂缓改造',
         cost: 0,
         reduction: 0,
-        revenueChange: 30,
+        revenueChange: 0,
         risk: '高',
         tag: '高风险',
         tagTone: 'risk',
-        description: '短期收益更高，但合规压力保留。',
+        description: '暂时不投入资金，但后续履约风险升高。',
       },
     ],
   },
   {
     id: 'factory_heavy',
-    title: '重型制造厂',
+    title: '绿色制造厂',
     emission: 180,
+    riskLevel: '中高',
     problem: '设备能耗高，生产过程排放集中，改造难度较大。',
     options: [
       {
         id: 'heavy_a',
-        name: '能耗监测系统',
-        cost: 50_000,
-        reduction: 35,
-        revenueChange: 10,
+        name: '基础低碳改造',
+        cost: 65_000,
+        reduction: 45,
+        revenueChange: 20,
         risk: '低',
         tag: '稳健型',
         tagTone: 'long',
-        description: '先建立监测，便于后续管理。',
+        description: '适合初步降低排放，投入较低。',
       },
       {
         id: 'heavy_b',
-        name: '碳捕集与能耗监测系统',
+        name: '深度优化改造',
         cost: 150_000,
         reduction: 120,
         revenueChange: 5,
         risk: '中高',
         tag: '技术型',
-        tagTone: 'short',
-        description: '减排最大，但资金压力明显。',
+        tagTone: 'balance',
+        description: '减排效果更强，但资金压力更大。',
       },
       {
         id: 'heavy_c',
-        name: '设备更新改造',
-        cost: 100_000,
-        reduction: 75,
-        revenueChange: 20,
-        risk: '中',
-        tag: '平衡型',
-        tagTone: 'balance',
-        description: '兼顾减排和生产效率。',
+        name: '暂缓改造',
+        cost: 0,
+        reduction: 0,
+        revenueChange: 0,
+        risk: '高',
+        tag: '高风险',
+        tagTone: 'risk',
+        description: '暂时不投入资金，但后续履约风险升高。',
       },
     ],
   },
@@ -350,6 +356,31 @@ export const DEEP_OPTIONS: Record<FactoryId, DecisionOption> = {
   },
 };
 
+export const FACTORY_OPERATION_LABELS = {
+  normal: '普通低碳改造',
+  deep: '深度优化改造',
+} as const;
+
+export type FactoryOperationActions = {
+  normal: DecisionOption;
+  deep: DecisionOption;
+};
+
+/** 工厂操作卡上的两档改造选项（初改阶段） */
+export function getFactoryOperationActions(factoryId: FactoryId): FactoryOperationActions {
+  const factory = getFactory(factoryId);
+  if (factoryId === 'factory_heavy') {
+    return {
+      normal: DEEP_OPTIONS.factory_heavy,
+      deep: factory.options[1],
+    };
+  }
+  return {
+    normal: factory.options[0],
+    deep: factory.options[1],
+  };
+}
+
 export type ChoiceRecord = {
   phase: ChoicePhase;
   stageTitle: string;
@@ -365,6 +396,24 @@ export function getFactory(id: FactoryId): FactoryDef {
   const f = FACTORIES.find((x) => x.id === id);
   if (!f) throw new Error(`Unknown factory: ${id}`);
   return f;
+}
+
+
+export function getDefaultInitialOption(factoryId: FactoryId): DecisionOption {
+  const factory = getFactory(factoryId);
+  const copy = getFactoryCopy(factoryId);
+  return (
+    factory.options.find((o) => o.name === copy.solutionName) ??
+    factory.options[1] ??
+    factory.options[0]
+  );
+}
+
+export function getDefaultEventOption(stageId: StageId): DecisionOption | null {
+  if (stageId === 'diagnosis') return DIAGNOSIS_EVENT.options[0];
+  if (stageId === 'inspection') return INSPECTION_EVENT.options[0];
+  if (stageId === 'carbon') return CARBON_EVENT.options[0];
+  return null;
 }
 
 export function getEventForStage(stageId: StageId): EventDecision | null {
