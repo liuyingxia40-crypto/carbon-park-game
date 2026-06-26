@@ -1,16 +1,19 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import {
   CONSTRUCTION_ANIMATION_MS,
+  SUCCESS_RING_MS,
   factorySpriteSrc,
+  isFactoryUpgraded,
   PLACEMENT_MAP_JSON,
 } from '../../game/park/factoryPlacements';
 import {
   clientPointToMapCoords,
-  factoryImageStyle,
+  factoryDebugBoundsStyle,
   measureMapImageScale,
   tiledFactoryObjectToScreenRect,
   type MapImageScale,
 } from '../../game/park/mapDisplayCoords';
+import { computeFactoryVisualRect, factoryImageStyle } from '../../game/park/factoryDisplayLayout';
 import {
   hitTestPolygon,
   parseRetrofitMap,
@@ -22,6 +25,8 @@ import {
   type FactoryId,
   type StageId,
 } from '../../game/story/phase1Script';
+import { FactoryConstructionFx } from './FactoryConstructionFx';
+import { FactoryCompletionMark } from './FactoryCompletionMark';
 import {
   FACTORY_UI_META,
   FactoryBubble,
@@ -58,6 +63,8 @@ export function RetrofitMapView({
   const [loadError, setLoadError] = useState<string | null>(null);
   const [mapScale, setMapScale] = useState<MapImageScale | null>(null);
   const [hoveredFactory, setHoveredFactory] = useState<FactoryId | null>(null);
+  const [successFactory, setSuccessFactory] = useState<FactoryId | null>(null);
+  const prevConstructing = useRef<FactoryId | null>(null);
 
   const measureMap = useCallback(() => {
     const image = imageRef.current;
@@ -111,6 +118,16 @@ export function RetrofitMapView({
       image.removeEventListener('load', measureMap);
     };
   }, [layout?.mapImage, measureMap]);
+
+  useEffect(() => {
+    if (prevConstructing.current && !constructingFactory) {
+      setSuccessFactory(prevConstructing.current);
+      const timer = window.setTimeout(() => setSuccessFactory(null), SUCCESS_RING_MS);
+      prevConstructing.current = constructingFactory;
+      return () => window.clearTimeout(timer);
+    }
+    prevConstructing.current = constructingFactory;
+  }, [constructingFactory]);
 
   const actionable = isMapFactoryStage(stageId);
 
@@ -240,7 +257,7 @@ export function RetrofitMapView({
                   <div
                     key={`debug-${factory.objectId}`}
                     className="map-wrapper__debug-bounds"
-                    style={factoryImageStyle(debugBox)}
+                    style={factoryDebugBoundsStyle(debugBox)}
                     title={`factory_objects #${factory.objectId}`}
                     aria-hidden
                   />
@@ -256,30 +273,34 @@ export function RetrofitMapView({
               initialRetrofitDone,
               deepOptimizedFactory,
             );
-            const box = factoryScreenRect(factory);
+            const box = factoryScreenRect(factory, 0);
             if (!box) return null;
 
-            const centerX = box.left + box.width / 2;
-            const bubbleTop = box.top - 8;
-            const nameTagTop = box.top + box.height + 4;
+            const isConstructing = visualState === 'constructing';
+            const isUpgraded = isFactoryUpgraded(factory.factoryId, initialRetrofitDone);
+            const showCompletionMark = successFactory === factory.factoryId;
+
+            const visual = computeFactoryVisualRect(factory.factoryId, box, isUpgraded);
+            const centerX = visual.centerX;
+            const bubbleTop = visual.top - 8;
+            const nameTagTop = visual.bottom + 4;
             const clickable = isFactoryClickable(factory.factoryId);
             const showBubble = true;
 
             return (
               <div key={factory.factoryId} className={`map-wrapper__factory-slot map-wrapper__factory--${visualState}`}>
-                <img
-                  className="map-wrapper__factory-sprite"
-                  src={factorySpriteSrc(factory.factoryId)}
-                  alt={uiMeta.title}
-                  title={uiMeta.title}
-                  draggable={false}
-                  style={factoryImageStyle(box)}
-                />
-                {visualState === 'constructing' ? (
-                  <div className="map-wrapper__construction" style={factoryImageStyle(box)} aria-hidden>
-                    <span className="map-wrapper__construction-label">施工中</span>
-                  </div>
+                {!isConstructing ? (
+                  <img
+                    className="map-wrapper__factory-sprite"
+                    src={factorySpriteSrc(factory.factoryId, isUpgraded)}
+                    alt={uiMeta.title}
+                    title={uiMeta.title}
+                    draggable={false}
+                    style={factoryImageStyle(factory.factoryId, box, isUpgraded)}
+                  />
                 ) : null}
+                {isConstructing ? <FactoryConstructionFx box={box} /> : null}
+                {showCompletionMark ? <FactoryCompletionMark box={box} /> : null}
                 {showBubble ? (
                   <div
                     className="map-wrapper__bubble-anchor"

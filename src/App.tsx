@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { StartScene } from './components/StartScene';
 import { PhaserIntro } from './components/PhaserIntro';
 import { ComplianceFailurePanel } from './components/story/ComplianceFailurePanel';
@@ -7,9 +7,9 @@ import { getDefaultHint } from './components/story/GameHeader';
 import { ReportPanel } from './components/story/ReportPanel';
 import { CONSTRUCTION_ANIMATION_MS } from './components/story/RetrofitMapView';
 import { StoryMapStage } from './components/story/StoryMapStage';
-import { BottomActionBar, SuccessRing, TopHUD } from './components/story/ui';
+import { BottomActionBar, DataPanel, TopHUD } from './components/story/ui';
 import { parkBridge } from './game/parkBridge';
-import { carbonGapTon, triggersComplianceFailure } from './game/story/compliance';
+import { carbonGapTon, formatWanYuan, getSecondRoundMinCost, shouldFailAfterRoundOne, triggersComplianceFailure, type FailureReason } from './game/story/compliance';
 import {
   applyDeepOptimization,
   applyEventDecision,
@@ -40,7 +40,26 @@ type FailureState = {
   playerMoney: number;
   requiredCost: number;
   carbonGap: number;
+  reason: FailureReason;
 };
+
+function triggerFailure(
+  game: GameState,
+  reason: FailureReason,
+  requiredCost: number,
+  setFailure: (f: FailureState) => void,
+  closePanel: () => void,
+  setDataPanelOpen: (open: boolean) => void,
+) {
+  setFailure({
+    playerMoney: game.funds,
+    requiredCost,
+    carbonGap: carbonGapTon(game.emission),
+    reason,
+  });
+  closePanel();
+  setDataPanelOpen(false);
+}
 
 const AUTO_EVENT_TITLES: Partial<Record<StageId, string>> = {
   diagnosis: '园区诊断',
@@ -55,8 +74,7 @@ function StoryGame({ onReturnStart }: { onReturnStart: () => void }) {
   const [mapKey, setMapKey] = useState(0);
   const [hint, setHint] = useState(() => getDefaultHint(createInitialState()));
   const [failure, setFailure] = useState<FailureState | null>(null);
-  const [showSuccess, setShowSuccess] = useState(false);
-  const prevConstructing = useRef<FactoryId | null>(null);
+  const [dataPanelOpen, setDataPanelOpen] = useState(false);
 
   useEffect(() => {
     setHint(getDefaultHint(game));
@@ -70,16 +88,6 @@ function StoryGame({ onReturnStart }: { onReturnStart: () => void }) {
     }
   }, [failure]);
 
-  useEffect(() => {
-    if (prevConstructing.current && !constructingFactory) {
-      setShowSuccess(true);
-      const t = window.setTimeout(() => setShowSuccess(false), 900);
-      prevConstructing.current = constructingFactory;
-      return () => window.clearTimeout(t);
-    }
-    prevConstructing.current = constructingFactory;
-  }, [constructingFactory]);
-
   const closePanel = useCallback(() => {
     setSelectedFactory(null);
   }, []);
@@ -91,18 +99,35 @@ function StoryGame({ onReturnStart }: { onReturnStart: () => void }) {
 
   const handleInsufficientFunds = useCallback(
     (option: DecisionOption) => {
+      if (shouldFailAfterRoundOne(game) || (game.stageId === 'deep_opt' && game.funds < option.cost)) {
+        triggerFailure(
+          game,
+          'second_round_funds',
+          getSecondRoundMinCost(),
+          setFailure,
+          closePanel,
+          setDataPanelOpen,
+        );
+        return;
+      }
       if (triggersComplianceFailure(option, game.stageId)) {
-        setFailure({
-          playerMoney: game.funds,
-          requiredCost: option.cost,
-          carbonGap: carbonGapTon(game.emission),
-        });
-        closePanel();
+        triggerFailure(
+          game,
+          'compliance',
+          option.cost,
+          setFailure,
+          closePanel,
+          setDataPanelOpen,
+        );
+        return;
+      }
+      if (game.stageId === 'retrofit') {
+        setHint(`资金不足（需 ${formatWanYuan(option.cost)}，当前 ${formatWanYuan(game.funds)}），可返回地图选择其他方案`);
         return;
       }
       setHint('资金不足，无法执行改造');
     },
-    [game.stageId, game.funds, game.emission, closePanel],
+    [game, closePanel],
   );
 
   const applyOptionToState = useCallback(
@@ -133,6 +158,18 @@ function StoryGame({ onReturnStart }: { onReturnStart: () => void }) {
   useEffect(() => {
     if (failure) return;
 
+    if (shouldFailAfterRoundOne(game)) {
+      triggerFailure(
+        game,
+        'second_round_funds',
+        getSecondRoundMinCost(),
+        setFailure,
+        closePanel,
+        setDataPanelOpen,
+      );
+      return;
+    }
+
     const autoStages: StageId[] = ['diagnosis', 'inspection', 'carbon'];
     if (!autoStages.includes(game.stageId)) return;
 
@@ -156,7 +193,7 @@ function StoryGame({ onReturnStart }: { onReturnStart: () => void }) {
       applyEventDecision(g, phase, AUTO_EVENT_TITLES[game.stageId]!, option),
     );
     setHint(formatChoiceHint(option));
-  }, [failure, game.stageId, game.funds, game.choices, handleInsufficientFunds]);
+  }, [failure, game, handleInsufficientFunds, closePanel]);
 
   const handleFactoryDecision = useCallback(
     (option: DecisionOption) => {
@@ -215,6 +252,7 @@ function StoryGame({ onReturnStart }: { onReturnStart: () => void }) {
           factory={factory}
           mode="initial"
           funds={game.funds}
+          currentEmission={game.emission}
           readonly={done}
           choice={getInitialChoice(game, selectedFactory)}
           onSelect={handleFactoryDecision}
@@ -231,6 +269,7 @@ function StoryGame({ onReturnStart }: { onReturnStart: () => void }) {
           factory={factory}
           mode="deep"
           funds={game.funds}
+          currentEmission={game.emission}
           readonly={Boolean(game.deepOptimizedFactory)}
           choice={isDeepTarget ? deepChoice : getInitialChoice(game, selectedFactory)}
           deepOption={DEEP_OPTIONS[selectedFactory]}
@@ -249,21 +288,11 @@ function StoryGame({ onReturnStart }: { onReturnStart: () => void }) {
 
   const factoryPanelOpen = Boolean(selectedFactory && isMapFactoryStage(game.stageId));
 
-  const overlay =
-    game.stageId === 'report' ? (
-      <ReportPanel state={game} onRestart={handleRestart} />
-    ) : failure ? (
-      <ComplianceFailurePanel
-        playerMoney={failure.playerMoney}
-        requiredCost={failure.requiredCost}
-        carbonGap={failure.carbonGap}
-        onReplan={handleReplan}
-        onReturnHome={handleReturnHomeFromFailure}
-      />
-    ) : null;
-
+  const showReport = game.stageId === 'report' && !failure;
+  const showBottomBar = !failure && !showReport;
+  const modalOverlayOpen = failure || showReport;
   const defaultHint = getDefaultHint(game);
-  const showHintToast = !failure && game.stageId !== 'report' && hint !== defaultHint;
+  const showHintToast = !modalOverlayOpen && hint !== defaultHint;
 
   const handleUpgrade = useCallback(() => {
     if (isMapFactoryStage(game.stageId)) {
@@ -285,10 +314,17 @@ function StoryGame({ onReturnStart }: { onReturnStart: () => void }) {
     }
   }, [game.stageId, game.emission]);
 
-  const showBottomBar = !failure && game.stageId !== 'report';
+  const handleParkOverview = useCallback(() => {
+    setSelectedFactory(null);
+    setDataPanelOpen(true);
+  }, []);
+
+  const closeDataPanel = useCallback(() => {
+    setDataPanelOpen(false);
+  }, []);
 
   return (
-    <div className="game-screen">
+    <div className={`game-screen${modalOverlayOpen ? ' game-screen--modal-open' : ''}`}>
       <main className="game-screen__main">
         <StoryMapStage
           mapKey={mapKey}
@@ -298,9 +334,7 @@ function StoryGame({ onReturnStart }: { onReturnStart: () => void }) {
           selectedFactory={selectedFactory}
           constructingFactory={constructingFactory}
           onFactorySelect={handleFactorySelect}
-        >
-          {overlay}
-        </StoryMapStage>
+        />
         <div className="ui-overlay">
           <TopHUD state={game} />
           {showHintToast ? (
@@ -308,16 +342,28 @@ function StoryGame({ onReturnStart }: { onReturnStart: () => void }) {
               {hint}
             </div>
           ) : null}
-          {!failure && factoryPanelOpen ? factoryPanel : null}
+          {!failure && factoryPanelOpen && !dataPanelOpen ? factoryPanel : null}
+          <DataPanel open={dataPanelOpen} onClose={closeDataPanel} state={game} />
           {showBottomBar ? (
             <BottomActionBar
               onUpgrade={handleUpgrade}
               onInspect={handleInspect}
               onCarbonPlan={handleCarbonPlan}
+              onParkOverview={handleParkOverview}
               showCarbonBadge={game.emission > TARGET_EMISSION || game.stageId === 'carbon'}
             />
           ) : null}
-          <SuccessRing show={showSuccess} />
+          {showReport ? <ReportPanel state={game} onRestart={handleRestart} /> : null}
+          {failure ? (
+            <ComplianceFailurePanel
+              playerMoney={failure.playerMoney}
+              requiredCost={failure.requiredCost}
+              carbonGap={failure.carbonGap}
+              reason={failure.reason}
+              onReplan={handleReplan}
+              onReturnHome={handleReturnHomeFromFailure}
+            />
+          ) : null}
         </div>
       </main>
     </div>

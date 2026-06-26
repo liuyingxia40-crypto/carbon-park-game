@@ -31,8 +31,8 @@
   align-items: center;
   justify-content: center;
   gap: clamp(4px, 0.8vh, 6px);
-  width: clamp(72px, 8vw, 96px);
-  height: clamp(72px, 8vw, 96px);
+  width: clamp(64px, 7.5vw, 88px);
+  height: clamp(64px, 7.5vw, 88px);
   padding: clamp(8px, 1.5vh, 12px);
   border: 2px solid rgba(255, 255, 255, 0.85);
   border-radius: clamp(16px, 2.5vw, 22px);
@@ -588,8 +588,9 @@
   max-width: 100%;
   box-sizing: border-box;
   width: 100%;
-  padding: clamp(12px, 2vh, 16px) clamp(10px, 1.5vw, 14px) clamp(12px, 2vh, 14px);
-  border-radius: clamp(20px, 3vw, 24px);
+  min-height: clamp(320px, 44vh, 360px);
+  padding: clamp(12px, 2vh, 14px) clamp(10px, 1.5vw, 12px) clamp(10px, 1.8vh, 12px);
+  border-radius: clamp(18px, 2.8vw, 22px);
   text-align: left;
   font-family: var(--game-font);
   transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
@@ -659,10 +660,10 @@
 
 .scheme-card__type-badge {
   align-self: flex-start;
-  margin-bottom: clamp(8px, 1.5vh, 10px);
-  padding: 3px 10px;
+  margin-bottom: clamp(6px, 1.2vh, 8px);
+  padding: 3px 9px;
   border-radius: 999px;
-  font-size: clamp(9px, 1.6vw, 11px);
+  font-size: clamp(9px, 1.5vw, 10px);
   font-weight: 900;
   letter-spacing: 0.04em;
 }
@@ -718,8 +719,8 @@
 }
 
 .scheme-card__name {
-  margin: 0 0 clamp(6px, 1vh, 8px);
-  font-size: clamp(15px, 2.5vw, 18px);
+  margin: 0 0 clamp(4px, 0.8vh, 6px);
+  font-size: clamp(14px, 2.2vw, 16px);
   font-weight: 900;
   line-height: 1.3;
   word-break: break-word;
@@ -738,12 +739,129 @@
 }
 
 .scheme-card__desc {
-  margin: 0 0 clamp(10px, 1.8vh, 12px);
-  font-size: clamp(11px, 1.85vw, 13px);
+  margin: 0 0 clamp(8px, 1.4vh, 10px);
+  font-size: clamp(10px, 1.7vw, 12px);
   font-weight: 600;
   color: #5a7888;
-  line-height: 1.45;
+  line-height: 1.4;
   word-break: break-word;
+}
+
+.scheme-card__metrics {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(6px, 1vh, 8px);
+  margin: 0 0 clamp(10px, 1.6vh, 12px);
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.scheme-card__metric {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+  padding: clamp(6px, 1vh, 8px) clamp(7px, 1.2vw, 9px);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.72);
+  border: 1.5px solid rgba(140, 190, 170, 0.28);
+}
+
+.scheme-card--advanced .scheme-card__metric {
+  border-color: rgba(100, 180, 220, 0.28);
+}
+
+.scheme-card--defer .scheme-card__metric {
+  border-color: rgba(150, 175, 200, 0.32);
+}
+
+.scheme-card__metric-label {
+  font-size: clamp(9px, 1.5vw, 10px);
+  font-weight: 800;
+  color: #6a8898;
+  letter-spacing: 0.02em;
+}
+
+.scheme-card__metric-value {
+  font-size: clamp(12px, 2vw, 14px);
+  font-weight: 900;
+  line-height: 1.3;
+  word-break: break-word;
+}
+
+.scheme-card__cost-icon {
+  margin-right: 2px;
+  font-size: 0.92em;
+}
+
+.scheme-card__metric-value--cost {
+  color: #b87808;
+  font-size: clamp(13px, 2.2vw, 16px);
+}
+
+.scheme-card__metric-value--reduction {
+  color: #18a858;
+}
+
+.scheme-card__metric-value--impact {
+  color: #4a6888;
+  font-size: clamp(11px, 1.85vw, 12px);
+  font-weight: 800;
+}
+
+.scheme-card__metric-value--duration {
+  color: #3a6888;
+}
+
+.scheme-card__metric-value--risk {
+  color: #e07040;
+  font-size: clamp(10px, 1.75vw, 11px);
+  font-weight: 800;
+}
+
+.scheme-card__outcome {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 0 0 clamp(8px, 1.4vh, 10px);
+  padding: clamp(6px, 1vh, 8px) clamp(8px, 1.4vw, 10px);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.55);
+  border: 1.5px dashed rgba(120, 170, 150, 0.35);
+}
+
+.scheme-card--advanced .scheme-card__outcome {
+  border-color: rgba(100, 170, 210, 0.35);
+}
+
+.scheme-card--defer .scheme-card__outcome {
+  border-color: rgba(150, 175, 200, 0.35);
+}
+
+.scheme-card__outcome-label {
+  font-size: clamp(9px, 1.5vw, 10px);
+  font-weight: 800;
+  color: #6a8898;
+}
+
+.scheme-card__outcome-value {
+  font-size: clamp(11px, 1.85vw, 12px);
+  font-weight: 900;
+  line-height: 1.35;
+  color: #2a5868;
+  word-break: break-word;
+}
+
+.scheme-card__outcome--starter .scheme-card__outcome-value {
+  color: #1a6848;
+}
+
+.scheme-card__outcome--advanced .scheme-card__outcome-value {
+  color: #1a5888;
+}
+
+.scheme-card__outcome--defer .scheme-card__outcome-value {
+  color: #5a7088;
 }
 
 .scheme-card__stat {
@@ -797,8 +915,9 @@
 
 .scheme-card__btn {
   width: 100%;
-  min-height: clamp(48px, 7vh, 54px);
-  padding: 0 clamp(14px, 2.5vw, 18px);
+  min-height: clamp(42px, 6vh, 48px);
+  margin-top: auto;
+  padding: 0 clamp(10px, 2vw, 14px);
   border: none;
   border-radius: 999px;
   font-family: var(--game-font);
@@ -883,8 +1002,9 @@
   display: flex;
   justify-content: center;
   align-items: flex-end;
-  gap: clamp(12px, 3vw, 20px);
-  padding: clamp(10px, 2vh, 14px) clamp(16px, 4vw, 24px) clamp(20px, 3.5vh, 32px);
+  flex-wrap: wrap;
+  gap: clamp(8px, 2vw, 16px);
+  padding: clamp(10px, 2vh, 14px) clamp(8px, 2vw, 16px) clamp(20px, 3.5vh, 32px);
   background: linear-gradient(
     0deg,
     rgba(255, 255, 255, 0.88) 0%,

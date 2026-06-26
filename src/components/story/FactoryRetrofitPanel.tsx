@@ -6,6 +6,7 @@ type Props = {
   factory: FactoryDef;
   mode: 'initial' | 'deep';
   funds: number;
+  currentEmission: number;
   readonly: boolean;
   choice?: ChoiceRecord;
   deepOption?: DecisionOption;
@@ -20,6 +21,7 @@ export function FactoryRetrofitPanel({
   factory,
   mode,
   funds,
+  currentEmission,
   readonly,
   choice,
   deepOption,
@@ -59,6 +61,7 @@ export function FactoryRetrofitPanel({
         subtitle={subtitle}
         options={[deepOption]}
         funds={funds}
+        currentEmission={currentEmission}
         onSelect={handleSelect}
         onClose={onClose}
       />
@@ -72,6 +75,7 @@ export function FactoryRetrofitPanel({
         subtitle={`${factory.title} · 成本 ${formatWanYuan(choice.cost)}`}
         options={[]}
         funds={funds}
+        currentEmission={currentEmission}
         readonly
         choice={choice}
         readonlyNote={readonlyNote}
@@ -87,6 +91,7 @@ export function FactoryRetrofitPanel({
       subtitle={subtitle}
       options={factory.options}
       funds={funds}
+      currentEmission={currentEmission}
       onSelect={handleSelect}
       onClose={onClose}
     />

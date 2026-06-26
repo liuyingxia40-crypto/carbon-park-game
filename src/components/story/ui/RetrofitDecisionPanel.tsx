@@ -10,6 +10,7 @@ type Props = {
   subtitle?: string;
   options: DecisionOption[];
   funds: number;
+  currentEmission: number;
   readonly?: boolean;
   choice?: ChoiceRecord;
   readonlyNote?: string;
@@ -55,6 +56,7 @@ export function RetrofitDecisionPanel({
   subtitle,
   options,
   funds,
+  currentEmission,
   readonly,
   choice,
   readonlyNote,
@@ -88,7 +90,15 @@ export function RetrofitDecisionPanel({
   }
 
   return (
-    <PanelChrome title={title} subtitle={subtitle}>
+    <PanelChrome
+      title={title}
+      subtitle={subtitle}
+      footer={
+        <button type="button" className="decision-panel-game__back-btn" onClick={onClose}>
+          返回地图
+        </button>
+      }
+    >
       <div className={`decision-panel-game__cards${options.length === 1 ? ' decision-panel-game__cards--single' : ''}`}>
         {options.map((opt, index) => (
           <DecisionCard
@@ -96,6 +106,7 @@ export function RetrofitDecisionPanel({
             option={opt}
             index={index}
             total={options.length}
+            currentEmission={currentEmission}
             affordable={canAfford(funds, opt.cost)}
             onSelect={() => onSelect(opt)}
           />

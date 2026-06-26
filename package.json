@@ -11,9 +11,12 @@
     "assets:check-tiles": "node scripts/check-tiles-sheet.mjs"
   },
   "dependencies": {
+    "echarts": "^6.1.0",
+    "echarts-for-react": "^3.0.6",
     "phaser": "^3.87.0",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "tslib": "^2.8.1"
   },
   "devDependencies": {
     "@types/react": "^19.0.0",

@@ -1,10 +1,22 @@
 import { getFactoryCopy } from '../park/factoryCopy';
 
-export const INITIAL_FUNDS = 420_000;
-export const INITIAL_EMISSION = 460;
-export const TARGET_EMISSION = 200;
+export const INITIAL_FUNDS = 1_200_000;
+export const INITIAL_EMISSION = 180;
+export const TARGET_EMISSION = 150;
 export const INITIAL_REVENUE = 100;
+export const INITIAL_POWER_PERCENT = 86;
 export const PHASE_LABEL = '旧厂低碳转型';
+
+/** 初改方案 · 基础低碳改造 */
+export const RETROFIT_BASIC_COST = 200_000;
+export const RETROFIT_BASIC_REDUCTION = 18;
+
+/** 初改方案 · 深度优化改造 */
+export const RETROFIT_ADVANCED_COST = 550_000;
+export const RETROFIT_ADVANCED_REDUCTION = 47;
+
+/** 暂缓改造 · 合规风险增量 */
+export const RETROFIT_DEFER_RISK = 20;
 
 export type RiskLevel = '低' | '中' | '中高' | '高';
 export type TagTone = 'long' | 'balance' | 'short' | 'risk';
@@ -31,6 +43,58 @@ export type DecisionOption = {
   tag: string;
   tagTone: TagTone;
   description: string;
+  /** 卡片展示费用（元）；缺省使用 cost */
+  displayCost?: number;
+  /** 卡片展示减排百分比；null 表示 — */
+  reductionPercent?: number | null;
+  /** 卡片展示产能影响（负数表示下降） */
+  capacityImpactPercent?: number | null;
+  /** 卡片展示工期（天） */
+  durationDays?: number | null;
+  /** 卡片展示风险说明（暂缓方案等） */
+  riskDetail?: string;
+  /** 卡片展示运营影响说明 */
+  impactDetail?: string;
+  /** 选择暂缓等方案时增加的合规风险（百分点） */
+  riskIncrement?: number;
+};
+
+/** 三张初改方案卡的统一展示文案 */
+const RETROFIT_CARD_A: Pick<
+  DecisionOption,
+  | 'reductionPercent'
+  | 'capacityImpactPercent'
+  | 'durationDays'
+  | 'description'
+> = {
+  reductionPercent: 10,
+  capacityImpactPercent: -3,
+  durationDays: 3,
+  description: '适合初步降低排放，投入较低。',
+};
+
+const RETROFIT_CARD_B: Pick<
+  DecisionOption,
+  | 'reductionPercent'
+  | 'capacityImpactPercent'
+  | 'durationDays'
+  | 'description'
+> = {
+  reductionPercent: 26,
+  capacityImpactPercent: -8,
+  durationDays: 7,
+  description: '减排效果更强，但资金压力更大。',
+};
+
+const RETROFIT_CARD_C: Pick<
+  DecisionOption,
+  'reductionPercent' | 'riskDetail' | 'impactDetail' | 'description' | 'riskIncrement'
+> = {
+  reductionPercent: null,
+  riskDetail: '超标风险 +20%',
+  impactDetail: '可能触发整改罚款',
+  riskIncrement: RETROFIT_DEFER_RISK,
+  description: '暂不投入资金，但后续碳约束风险升高。',
 };
 
 export type EventDecision = {
@@ -73,7 +137,7 @@ export const DIAGNOSIS_EVENT: EventDecision = {
     {
       id: 'diag_a',
       name: '基础排放核算',
-      cost: 10_000,
+      cost: 0,
       reduction: 0,
       revenueChange: 0,
       risk: '低',
@@ -113,9 +177,9 @@ export const INSPECTION_EVENT: EventDecision = {
     {
       id: 'insp_a',
       name: '追加设备改造',
-      cost: 80_000,
-      reduction: 60,
-      revenueChange: 10,
+      cost: 150_000,
+      reduction: 12,
+      revenueChange: 0,
       risk: '中',
       tag: '平衡型',
       tagTone: 'balance',
@@ -124,8 +188,8 @@ export const INSPECTION_EVENT: EventDecision = {
     {
       id: 'insp_b',
       name: '购买碳配额应急',
-      cost: 60_000,
-      reduction: 50,
+      cost: 100_000,
+      reduction: 10,
       revenueChange: 0,
       risk: '低',
       tag: '稳健型',
@@ -137,10 +201,11 @@ export const INSPECTION_EVENT: EventDecision = {
       name: '保留资金，等待下一阶段',
       cost: 0,
       reduction: 0,
-      revenueChange: 20,
+      revenueChange: 0,
       risk: '高',
       tag: '高风险',
       tagTone: 'risk',
+      riskIncrement: 15,
       description: '短期现金压力小，但合规风险上升。',
     },
   ],
@@ -153,8 +218,8 @@ export const CARBON_EVENT: EventDecision = {
     {
       id: 'carbon_a',
       name: '购买碳配额补足缺口',
-      cost: 80_000,
-      reduction: 60,
+      cost: 120_000,
+      reduction: 10,
       revenueChange: 0,
       risk: '低',
       tag: '稳健型',
@@ -164,9 +229,9 @@ export const CARBON_EVENT: EventDecision = {
     {
       id: 'carbon_b',
       name: '申请绿色项目认证',
-      cost: 60_000,
-      reduction: 45,
-      revenueChange: 10,
+      cost: 100_000,
+      reduction: 8,
+      revenueChange: 0,
       risk: '中',
       tag: '平衡型',
       tagTone: 'balance',
@@ -177,10 +242,11 @@ export const CARBON_EVENT: EventDecision = {
       name: '暂不购买',
       cost: 0,
       reduction: 0,
-      revenueChange: 20,
+      revenueChange: 0,
       risk: '高',
       tag: '高风险',
       tagTone: 'risk',
+      riskIncrement: 10,
       description: '保留资金，但可能无法达标。',
     },
   ],
@@ -195,31 +261,31 @@ export const FACTORIES: FactoryDef[] = [
   {
     id: 'factory_coal',
     title: '燃煤工厂',
-    emission: 160,
+    emission: 80,
     riskLevel: '高',
     problem: '设备老旧，能效偏低，是园区主要排放来源。',
     options: [
       {
         id: 'coal_a',
         name: '基础低碳改造',
-        cost: 60_000,
-        reduction: 50,
-        revenueChange: 10,
+        cost: RETROFIT_BASIC_COST,
+        reduction: RETROFIT_BASIC_REDUCTION,
+        revenueChange: 0,
         risk: '低',
         tag: '稳健型',
         tagTone: 'long',
-        description: '适合初步降低排放，投入较低。',
+        ...RETROFIT_CARD_A,
       },
       {
         id: 'coal_b',
         name: '深度优化改造',
-        cost: 120_000,
-        reduction: 90,
-        revenueChange: 5,
+        cost: RETROFIT_ADVANCED_COST,
+        reduction: RETROFIT_ADVANCED_REDUCTION,
+        revenueChange: 0,
         risk: '中',
         tag: '平衡型',
         tagTone: 'balance',
-        description: '减排效果更强，但资金压力更大。',
+        ...RETROFIT_CARD_B,
       },
       {
         id: 'coal_c',
@@ -230,38 +296,38 @@ export const FACTORIES: FactoryDef[] = [
         risk: '高',
         tag: '高风险',
         tagTone: 'risk',
-        description: '暂时不投入资金，但后续履约风险升高。',
+        ...RETROFIT_CARD_C,
       },
     ],
   },
   {
     id: 'factory_chemical',
     title: '化工厂',
-    emission: 120,
+    emission: 50,
     riskLevel: '中',
     problem: '废气处理不足，资源浪费明显，存在过程排放压力。',
     options: [
       {
         id: 'chem_a',
         name: '基础低碳改造',
-        cost: 70_000,
-        reduction: 45,
-        revenueChange: 5,
+        cost: RETROFIT_BASIC_COST,
+        reduction: RETROFIT_BASIC_REDUCTION,
+        revenueChange: 0,
         risk: '低',
         tag: '稳健型',
         tagTone: 'long',
-        description: '适合初步降低排放，投入较低。',
+        ...RETROFIT_CARD_A,
       },
       {
         id: 'chem_b',
         name: '深度优化改造',
-        cost: 110_000,
-        reduction: 70,
-        revenueChange: 15,
+        cost: RETROFIT_ADVANCED_COST,
+        reduction: RETROFIT_ADVANCED_REDUCTION,
+        revenueChange: 0,
         risk: '中',
         tag: '平衡型',
         tagTone: 'balance',
-        description: '减排效果更强，但资金压力更大。',
+        ...RETROFIT_CARD_B,
       },
       {
         id: 'chem_c',
@@ -272,38 +338,38 @@ export const FACTORIES: FactoryDef[] = [
         risk: '高',
         tag: '高风险',
         tagTone: 'risk',
-        description: '暂时不投入资金，但后续履约风险升高。',
+        ...RETROFIT_CARD_C,
       },
     ],
   },
   {
     id: 'factory_heavy',
     title: '绿色制造厂',
-    emission: 180,
+    emission: 50,
     riskLevel: '中高',
     problem: '设备能耗高，生产过程排放集中，改造难度较大。',
     options: [
       {
         id: 'heavy_a',
         name: '基础低碳改造',
-        cost: 65_000,
-        reduction: 45,
-        revenueChange: 20,
+        cost: RETROFIT_BASIC_COST,
+        reduction: RETROFIT_BASIC_REDUCTION,
+        revenueChange: 0,
         risk: '低',
         tag: '稳健型',
         tagTone: 'long',
-        description: '适合初步降低排放，投入较低。',
+        ...RETROFIT_CARD_A,
       },
       {
         id: 'heavy_b',
         name: '深度优化改造',
-        cost: 150_000,
-        reduction: 120,
-        revenueChange: 5,
-        risk: '中高',
-        tag: '技术型',
+        cost: RETROFIT_ADVANCED_COST,
+        reduction: RETROFIT_ADVANCED_REDUCTION,
+        revenueChange: 0,
+        risk: '中',
+        tag: '平衡型',
         tagTone: 'balance',
-        description: '减排效果更强，但资金压力更大。',
+        ...RETROFIT_CARD_B,
       },
       {
         id: 'heavy_c',
@@ -314,7 +380,7 @@ export const FACTORIES: FactoryDef[] = [
         risk: '高',
         tag: '高风险',
         tagTone: 'risk',
-        description: '暂时不投入资金，但后续履约风险升高。',
+        ...RETROFIT_CARD_C,
       },
     ],
   },
@@ -324,35 +390,44 @@ export const DEEP_OPTIONS: Record<FactoryId, DecisionOption> = {
   factory_coal: {
     id: 'coal_deep',
     name: '能源结构替换',
-    cost: 90_000,
-    reduction: 70,
-    revenueChange: 5,
+    cost: 250_000,
+    reduction: 15,
+    revenueChange: 0,
     risk: '中',
     tag: '深度型',
     tagTone: 'balance',
     description: '进一步降低燃煤依赖，提升长期合规能力。',
+    reductionPercent: 8,
+    capacityImpactPercent: -5,
+    durationDays: 5,
   },
   factory_chemical: {
     id: 'chem_deep',
     name: '循环利用系统',
-    cost: 75_000,
-    reduction: 55,
-    revenueChange: 15,
+    cost: 250_000,
+    reduction: 15,
+    revenueChange: 0,
     risk: '中',
     tag: '深度型',
     tagTone: 'balance',
     description: '提高资源回收率，同时降低过程排放。',
+    reductionPercent: 8,
+    capacityImpactPercent: -5,
+    durationDays: 5,
   },
   factory_heavy: {
     id: 'heavy_deep',
     name: '智能能耗调度',
-    cost: 65_000,
-    reduction: 45,
-    revenueChange: 20,
+    cost: 250_000,
+    reduction: 15,
+    revenueChange: 0,
     risk: '低',
     tag: '深度型',
     tagTone: 'long',
     description: '通过监测与调度降低高峰能耗。',
+    reductionPercent: 8,
+    capacityImpactPercent: -3,
+    durationDays: 5,
   },
 };
 
@@ -438,7 +513,7 @@ export function formatChoiceHint(option: Pick<DecisionOption, 'name' | 'reductio
 
 export function complianceLabel(emission: number): string {
   if (emission <= TARGET_EMISSION) return '已达标';
-  if (emission <= 260) return '接近达标';
+  if (emission <= TARGET_EMISSION + 15) return '接近达标';
   return '未达标';
 }
 
@@ -446,7 +521,7 @@ export function reportEvaluation(emission: number): string {
   if (emission <= TARGET_EMISSION) {
     return '第一阶段改造成功，园区排放已降至目标线以下。';
   }
-  if (emission <= 260) {
+  if (emission <= TARGET_EMISSION + 15) {
     return '园区排放已经明显下降，但仍未完全达标。下一阶段需要继续加强碳资产管理和深度改造。';
   }
   return '园区仍存在较大减排缺口，合规风险较高。';

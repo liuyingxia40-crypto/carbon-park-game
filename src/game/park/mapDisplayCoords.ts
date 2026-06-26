@@ -88,25 +88,16 @@ export function tiledFactoryObjectToScreenRect(
   };
 }
 
-export function factoryImageStyle(rect: TiledFactoryScreenRect): CSSProperties {
-  const rotation = ((rect.rotation % 360) + 360) % 360;
-  const style: CSSProperties = {
+/** 调试框：Tiled 地块矩形 */
+export function factoryDebugBoundsStyle(rect: TiledFactoryScreenRect): CSSProperties {
+  return {
     position: 'absolute',
     left: `${rect.left}px`,
     top: `${rect.top}px`,
     width: `${rect.width}px`,
     height: `${rect.height}px`,
-    objectFit: 'fill',
-    maxWidth: 'none',
-    maxHeight: 'none',
     boxSizing: 'border-box',
-    display: 'block',
   };
-  if (rotation) {
-    style.transform = `rotate(${rotation}deg)`;
-    style.transformOrigin = 'center center';
-  }
-  return style;
 }
 
 export function clientPointToMapCoords(

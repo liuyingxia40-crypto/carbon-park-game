@@ -1,9 +1,13 @@
 export { BottomActionBar } from './BottomActionBar';
+export { CarbonTrendChart } from './CarbonTrendChart';
+export { ComplianceGaugeChart } from './ComplianceGaugeChart';
+export { DataPanel } from './DataPanel';
 export { DecisionCard } from './DecisionCard';
 export { FactoryBubble } from './FactoryBubble';
 export { FactoryNameTag } from './FactoryNameTag';
 export { FACTORY_UI_META, factoryStarCount } from './factoryUiMeta';
 export { GameButton } from './GameButton';
+export { MoneyTrendChart } from './MoneyTrendChart';
 export { ResourcePill } from './ResourcePill';
 export { RetrofitDecisionPanel, RetrofitDecisionPanel as DecisionPanel } from './RetrofitDecisionPanel';
 export { SuccessRing } from './SuccessRing';

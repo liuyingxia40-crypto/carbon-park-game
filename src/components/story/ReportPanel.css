@@ -1,20 +1,21 @@
 .report-scene {
   position: absolute;
   inset: 0;
+  z-index: 50;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: clamp(8px, 1.5vh, 14px);
   overflow: hidden;
-  pointer-events: none;
-  background: linear-gradient(
-    180deg,
-    rgba(12, 22, 16, 0.35) 0%,
-    rgba(12, 22, 16, 0.55) 100%
-  );
+  pointer-events: auto;
+  isolation: isolate;
+  background: rgba(184, 230, 255, 0.72);
+  backdrop-filter: blur(3px);
 }
 
 .report-scene__panel {
+  position: relative;
+  z-index: 1;
   pointer-events: auto;
   display: flex;
   flex-direction: column;

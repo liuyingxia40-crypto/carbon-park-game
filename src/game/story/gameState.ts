@@ -4,6 +4,7 @@ import {
   getFactory,
   INITIAL_EMISSION,
   INITIAL_FUNDS,
+  INITIAL_POWER_PERCENT,
   INITIAL_REVENUE,
   STAGE_TITLES,
   type ChoicePhase,
@@ -18,6 +19,8 @@ export type GameState = {
   funds: number;
   emission: number;
   revenue: number;
+  powerPercent: number;
+  complianceRisk: number;
   choices: ChoiceRecord[];
   initialRetrofitDone: FactoryId[];
   deepOptimizedFactory: FactoryId | null;
@@ -29,6 +32,8 @@ export function createInitialState(): GameState {
     funds: INITIAL_FUNDS,
     emission: INITIAL_EMISSION,
     revenue: INITIAL_REVENUE,
+    powerPercent: INITIAL_POWER_PERCENT,
+    complianceRisk: 0,
     choices: [],
     initialRetrofitDone: [],
     deepOptimizedFactory: null,
@@ -40,11 +45,16 @@ function applyOption(
   option: DecisionOption,
   record: ChoiceRecord,
 ): GameState {
+  const capacityImpact = option.capacityImpactPercent ?? 0;
+  const riskBoost = option.riskIncrement ?? 0;
+
   return {
     ...state,
     funds: state.funds - option.cost,
     emission: Math.max(0, state.emission - option.reduction),
     revenue: state.revenue + option.revenueChange,
+    powerPercent: Math.max(50, state.powerPercent + capacityImpact),
+    complianceRisk: state.complianceRisk + riskBoost,
     choices: [...state.choices, record],
   };
 }
@@ -137,3 +147,4 @@ export function getChoiceByPhase(state: GameState, phase: ChoicePhase): ChoiceRe
 }
 
 export { complianceLabel };
+

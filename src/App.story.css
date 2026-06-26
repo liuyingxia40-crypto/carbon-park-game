@@ -36,8 +36,18 @@
 .ui-overlay > .top-hud,
 .ui-overlay > .bottom-action-bar,
 .ui-overlay > .decision-panel-game,
+.ui-overlay > .data-panel-root,
+.ui-overlay > .compliance-failure,
+.ui-overlay > .report-scene,
 .ui-overlay > .story-hint-toast {
   pointer-events: auto;
+}
+
+/* 全屏弹层打开时隐藏地图工厂标签，避免穿透面板 */
+.game-screen--modal-open .factory-name-tag,
+.game-screen--modal-open .factory-bubble,
+.game-screen--modal-open .map-wrapper__bubble-anchor {
+  visibility: hidden;
 }
 
 .story-hint-toast {

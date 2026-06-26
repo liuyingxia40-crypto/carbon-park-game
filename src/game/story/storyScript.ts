@@ -1,7 +1,6 @@
-export const INITIAL_EMISSION = 460;
-export const TARGET_EMISSION = 200;
-export const FUNDS = 420_000;
-export const PHASE_LABEL = '旧厂改造';
+export const INITIAL_EMISSION = 180;
+export const TARGET_EMISSION = 150;
+export const FUNDS = 1_200_000;export const PHASE_LABEL = '旧厂改造';
 
 export type StoryStageId =
   | 'intro'

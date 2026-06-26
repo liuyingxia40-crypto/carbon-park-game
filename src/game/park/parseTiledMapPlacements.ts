@@ -1,6 +1,7 @@
 import {
   BUILDABLE_PLOT_ORDER,
   PLACEMENT_MAP_IMAGE,
+  probeFactorySpriteLoad,
   resolveFactorySpritePath,
   spriteImageToFactoryId,
   TILED_OBJECT_LAYERS,
@@ -218,6 +219,7 @@ function parseFactorySprites(map: TiledMapJson): ParsedFactorySprite[] {
     if (!factoryId) {
       throw new Error(`无法识别工厂贴图：${image || obj.id}`);
     }
+    probeFactorySpriteLoad(image, factoryId);
 
     const plotId = BUILDABLE_PLOT_ORDER[index];
     const hitPolygon =

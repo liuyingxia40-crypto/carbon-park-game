@@ -1,23 +1,27 @@
 .compliance-failure {
   position: absolute;
   inset: 0;
-  z-index: 40;
+  z-index: 50;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: clamp(12px, 2.5vw, 24px);
   pointer-events: auto;
+  isolation: isolate;
   font-family: var(--game-font, 'Microsoft YaHei UI', sans-serif);
 }
 
 .compliance-failure__backdrop {
   position: absolute;
   inset: 0;
-  background: rgba(120, 180, 220, 0.35);
+  z-index: 0;
+  background: rgba(184, 230, 255, 0.72);
+  backdrop-filter: blur(3px);
 }
 
 .compliance-failure__panel {
   position: relative;
+  z-index: 1;
   width: min(440px, 92vw);
   padding: clamp(22px, 3.2vh, 28px) clamp(22px, 3.5vw, 30px) clamp(18px, 2.8vh, 24px);
   background: linear-gradient(180deg, #ffffff 0%, #eef8ff 100%);

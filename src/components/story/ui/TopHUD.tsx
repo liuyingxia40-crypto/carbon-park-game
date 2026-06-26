@@ -33,10 +33,6 @@ function computeDay(state: GameState): number {
   return 16 + stage * 12 + state.initialRetrofitDone.length * 8 + state.choices.length * 2;
 }
 
-function computePower(state: GameState): number {
-  return Math.round(80 + state.revenue * 0.8 + state.initialRetrofitDone.length * 15);
-}
-
 export function TopHUD({ state }: Props) {
   const level = computeLevel(state);
   const xp = computeXpPercent(state);
@@ -61,9 +57,9 @@ export function TopHUD({ state }: Props) {
           <ResourcePill
             kind="carbon"
             label="碳排放"
-            value={`${state.emission}/${TARGET_EMISSION}`}
+            value={`${state.emission} tCO₂e · ≤${TARGET_EMISSION}`}
           />
-          <ResourcePill kind="power" label="电力" value={`${computePower(state)}MW`} />
+          <ResourcePill kind="power" label="电力" value={`${state.powerPercent}%`} />
           <ResourcePill kind="time" label="天数" value={`第${day}天`} />
         </div>
       </div>
