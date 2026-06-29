@@ -8,7 +8,6 @@ import {
 } from '../../game/park/factoryPlacements';
 import {
   clientPointToMapCoords,
-  factoryDebugBoundsStyle,
   measureMapImageScale,
   tiledFactoryObjectToScreenRect,
   type MapImageScale,
@@ -34,9 +33,6 @@ import {
   factoryStarCount,
 } from './ui';
 import './RetrofitMapView.css';
-
-/** 临时：显示 factory_objects 调试框，确认与 Tiled 对齐后改为 false */
-const SHOW_FACTORY_DEBUG_BOUNDS = false;
 
 type Props = {
   mapKey?: number;
@@ -249,22 +245,6 @@ export function RetrofitMapView({
 
       {mapScale ? (
         <div className="map-wrapper__object-layer">
-          {SHOW_FACTORY_DEBUG_BOUNDS
-            ? layout.factories.map((factory) => {
-                const debugBox = factoryScreenRect(factory, 0);
-                if (!debugBox) return null;
-                return (
-                  <div
-                    key={`debug-${factory.objectId}`}
-                    className="map-wrapper__debug-bounds"
-                    style={factoryDebugBoundsStyle(debugBox)}
-                    title={`factory_objects #${factory.objectId}`}
-                    aria-hidden
-                  />
-                );
-              })
-            : null}
-
           {layout.factories.map((factory) => {
             const visualState = resolveFactoryVisualState(factory.factoryId);
             const uiMeta = FACTORY_UI_META[factory.factoryId];

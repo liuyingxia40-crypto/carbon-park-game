@@ -3,11 +3,11 @@ import { StartScene } from './components/StartScene';
 import { PhaserIntro } from './components/PhaserIntro';
 import { ComplianceFailurePanel } from './components/story/ComplianceFailurePanel';
 import { FactoryRetrofitPanel } from './components/story/FactoryRetrofitPanel';
-import { getDefaultHint } from './components/story/GameHeader';
+import { getDefaultHint } from './game/story/storyHints';
 import { ReportPanel } from './components/story/ReportPanel';
 import { CONSTRUCTION_ANIMATION_MS } from './components/story/RetrofitMapView';
 import { StoryMapStage } from './components/story/StoryMapStage';
-import { BottomActionBar, DataPanel, TopHUD } from './components/story/ui';
+import { BottomActionBar, DataPanel, FeedbackPanel, TopHUD } from './components/story/ui';
 import { parkBridge } from './game/parkBridge';
 import { carbonGapTon, formatWanYuan, getSecondRoundMinCost, shouldFailAfterRoundOne, triggersComplianceFailure, type FailureReason } from './game/story/compliance';
 import {
@@ -50,6 +50,7 @@ function triggerFailure(
   setFailure: (f: FailureState) => void,
   closePanel: () => void,
   setDataPanelOpen: (open: boolean) => void,
+  setFeedbackPanelOpen: (open: boolean) => void,
 ) {
   setFailure({
     playerMoney: game.funds,
@@ -59,6 +60,7 @@ function triggerFailure(
   });
   closePanel();
   setDataPanelOpen(false);
+  setFeedbackPanelOpen(false);
 }
 
 const AUTO_EVENT_TITLES: Partial<Record<StageId, string>> = {
@@ -75,6 +77,7 @@ function StoryGame({ onReturnStart }: { onReturnStart: () => void }) {
   const [hint, setHint] = useState(() => getDefaultHint(createInitialState()));
   const [failure, setFailure] = useState<FailureState | null>(null);
   const [dataPanelOpen, setDataPanelOpen] = useState(false);
+  const [feedbackPanelOpen, setFeedbackPanelOpen] = useState(false);
 
   useEffect(() => {
     setHint(getDefaultHint(game));
@@ -107,6 +110,7 @@ function StoryGame({ onReturnStart }: { onReturnStart: () => void }) {
           setFailure,
           closePanel,
           setDataPanelOpen,
+          setFeedbackPanelOpen,
         );
         return;
       }
@@ -118,6 +122,7 @@ function StoryGame({ onReturnStart }: { onReturnStart: () => void }) {
           setFailure,
           closePanel,
           setDataPanelOpen,
+          setFeedbackPanelOpen,
         );
         return;
       }
@@ -166,6 +171,7 @@ function StoryGame({ onReturnStart }: { onReturnStart: () => void }) {
         setFailure,
         closePanel,
         setDataPanelOpen,
+        setFeedbackPanelOpen,
       );
       return;
     }
@@ -316,11 +322,26 @@ function StoryGame({ onReturnStart }: { onReturnStart: () => void }) {
 
   const handleParkOverview = useCallback(() => {
     setSelectedFactory(null);
+    setFeedbackPanelOpen(false);
     setDataPanelOpen(true);
+  }, []);
+
+  const handleFeedback = useCallback(() => {
+    setSelectedFactory(null);
+    setDataPanelOpen(false);
+    setFeedbackPanelOpen(true);
   }, []);
 
   const closeDataPanel = useCallback(() => {
     setDataPanelOpen(false);
+  }, []);
+
+  const closeFeedbackPanel = useCallback(() => {
+    setFeedbackPanelOpen(false);
+  }, []);
+
+  const handleFeedbackSubmitted = useCallback(() => {
+    setHint('感谢反馈，我们已收到您的意见');
   }, []);
 
   return (
@@ -342,14 +363,20 @@ function StoryGame({ onReturnStart }: { onReturnStart: () => void }) {
               {hint}
             </div>
           ) : null}
-          {!failure && factoryPanelOpen && !dataPanelOpen ? factoryPanel : null}
+          {!failure && factoryPanelOpen && !dataPanelOpen && !feedbackPanelOpen ? factoryPanel : null}
           <DataPanel open={dataPanelOpen} onClose={closeDataPanel} state={game} />
+          <FeedbackPanel
+            open={feedbackPanelOpen}
+            onClose={closeFeedbackPanel}
+            onSubmitted={handleFeedbackSubmitted}
+          />
           {showBottomBar ? (
             <BottomActionBar
               onUpgrade={handleUpgrade}
               onInspect={handleInspect}
               onCarbonPlan={handleCarbonPlan}
               onParkOverview={handleParkOverview}
+              onFeedback={handleFeedback}
               showCarbonBadge={game.emission > TARGET_EMISSION || game.stageId === 'carbon'}
             />
           ) : null}

@@ -1,5 +1,3 @@
-import type { CSSProperties } from 'react';
-
 /** 地图在视口中的缩放（object-fit: contain + 略缩小） */
 export type MapImageScale = {
   naturalWidth: number;
@@ -88,17 +86,6 @@ export function tiledFactoryObjectToScreenRect(
   };
 }
 
-/** 调试框：Tiled 地块矩形 */
-export function factoryDebugBoundsStyle(rect: TiledFactoryScreenRect): CSSProperties {
-  return {
-    position: 'absolute',
-    left: `${rect.left}px`,
-    top: `${rect.top}px`,
-    width: `${rect.width}px`,
-    height: `${rect.height}px`,
-    boxSizing: 'border-box',
-  };
-}
 
 export function clientPointToMapCoords(
   clientX: number,

@@ -6,6 +6,7 @@ type Props = {
   onInspect: () => void;
   onCarbonPlan: () => void;
   onParkOverview: () => void;
+  onFeedback: () => void;
   showCarbonBadge?: boolean;
 };
 
@@ -14,6 +15,7 @@ export function BottomActionBar({
   onInspect,
   onCarbonPlan,
   onParkOverview,
+  onFeedback,
   showCarbonBadge,
 }: Props) {
   return (
@@ -28,6 +30,7 @@ export function BottomActionBar({
         showBadge={showCarbonBadge}
         ariaLabel="碳规划"
       />
+      <GameButton icon="💬" label="问题反馈" onClick={onFeedback} ariaLabel="问题反馈" />
     </nav>
   );
 }

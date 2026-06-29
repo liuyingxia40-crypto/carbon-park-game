@@ -24,9 +24,6 @@ export const FACTORY_UPGRADED_SRC: Record<FactoryId, string> = {
   factory_heavy: '/assets/factories/upgraded/heavy_factory_upgraded.png',
 };
 
-/** @deprecated 使用 FACTORY_ORIGINAL_SRC */
-export const FACTORY_SPRITE_SRC = FACTORY_ORIGINAL_SRC;
-
 export const FACTORY_SPRITE_TRIM_VERSION = '4';
 
 export const FACTORY_SPRITE_TRIM_PATHS: Record<string, string> = {

@@ -48,14 +48,6 @@
   pointer-events: none;
 }
 
-.map-wrapper__debug-bounds {
-  box-sizing: border-box;
-  border: 2px solid rgba(255, 0, 0, 0.85);
-  background: rgba(255, 0, 0, 0.12);
-  pointer-events: none;
-  z-index: 10;
-}
-
 .map-wrapper__bubble-anchor {
   position: absolute;
   z-index: 12;
